@@ -19,6 +19,8 @@ import {
 
 const LCP_BLOCKS = ['marquee']; // add your LCP blocks to the list
 
+document.body.classList.add("docs"); // TEMP HACK FOR MINITOC COLUMN FIX, REMOVE LATER
+
 /**
  * Builds hero block and prepends to main in a new section.
  * @param {Element} main The container element
