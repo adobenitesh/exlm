@@ -185,7 +185,7 @@ export async function updateProfile (key, val, replace = false) {
       authorization: sessionStorage.getItem(JWT),
       accept: 'application/json',
       'content-type': 'application/json-patch+json',
-      'x-csrf-token': await csrf()
+      'x-csrf-token': await csrf(JWTTokenUrl)
     },
     body: JSON.stringify([{op: 'replace', path: `/${key}`, value: data[key]}])
   });
@@ -199,12 +199,4 @@ export async function updateProfile (key, val, replace = false) {
   }
 
   return profileData;
-}
-
-export async function bookmark (el, arg) {
-  if (authenticated) {
-    await updateProfile('bookmarks', arg);
-  }
-
-  return arg;
 }
