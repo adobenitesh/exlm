@@ -7,7 +7,7 @@ import {keys as headerKeys, values as headerValues, JWT, Organization, Profile, 
 // import {override} from './regex';
 import {request} from '../request';
 // import {createStream} from './stream';
-import {token} from '../urls.js';
+import {JWTTokenUrl} from '../urls.js';
 
 export const profileUrl = '/api/profile';
 export const override = /^(recommended|votes)$/;
@@ -89,7 +89,7 @@ export async function profile (reuse = false, cstream = true, explicit = false) 
 
       if (data !== null) {
         if (sessionStorage.getItem(JWT) === null) {
-          await token(data);
+          await JWTTokenUrl(data);
         }
 
         if (profileData === null || explicit) {
@@ -108,9 +108,9 @@ export async function profile (reuse = false, cstream = true, explicit = false) 
             result = await profileMerge(arg.data);
             profileData = clone(result);
 
-            // if (cstream) {
-            //   createStream();
-            // }
+            if (cstream) {
+              // createStream();
+            }
           } else {
             signout();
           }
