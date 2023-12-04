@@ -23,12 +23,17 @@ export function hash (arg = '') {
   let result = 0;
 
   if (nth > 0) {
+    // eslint-disable-next-line
     let i = -1,
       chr;
 
+    // eslint-disable-next-line
     while (++i < nth) {
+      // eslint-disable-next-line
       chr = arg.charCodeAt(i);
+      // eslint-disable-next-line
       result = (result << 5) - result + chr;
+      // eslint-disable-next-line
       result |= 0;
     }
   }
@@ -45,11 +50,13 @@ export const headerKeys = {
   lang: 'accept-language'
 };
 
+// eslint-disable-next-line
 export const headerValues = {
   html: 'text/html',
   json: 'application/json'
 };
 
+// eslint-disable-next-line
 export const lang = document.querySelector('html').lang;
 export const origin = "https://experienceleague.adobe.com/";
 

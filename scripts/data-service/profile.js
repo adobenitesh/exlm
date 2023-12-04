@@ -1,8 +1,9 @@
-import { loadIms } from '../../scripts/scripts.js';
-import { signOut } from '../../scripts/auth/auth-operations.js';
+import { loadIms } from '../scripts.js';
+import { signOut } from '../auth/auth-operations.js';
 import { JWT, Organization, Profile, ProfileAttributes } from '../auth/session-keys.js';
 import { request, headerKeys, headerValues } from '../request.js';
 
+// eslint-disable-next-line
 export const lang = document.querySelector('html').lang;
 export const origin = "https://experienceleague.adobe.com";
 export const profileAPI = '/api/profile';
@@ -16,8 +17,10 @@ export function log (arg = '', {id = 'app', ts = true, type = 'log'} = {}) {
   const timestamp = type !== 'error' && ts ? new Date().getTime() : 0;
 
   if (timestamp > 0) {
+      // eslint-disable-next-line
       console[type](arg instanceof Object ? arg : `[${id}:${timestamp}] ${arg}`);
   } else {
+      // eslint-disable-next-line
       console[type](arg);
   }
 }
@@ -32,22 +35,27 @@ export function clone (arg = {}, transferables = []) {
   } else {
     result = JSON.parse(JSON.stringify(arg));
 
+    // eslint-disable-next-line
     for (const key of transferables) {
       result[key] = arg[key];
     }
   }
 
+  // eslint-disable-next-line
   return result;
 }
 
 export function merge (a = {}, b = {}) {
+  // eslint-disable-next-line
   let result = clone(a);
 
+  // eslint-disable-next-line
   for (const key of Reflect.ownKeys(b)) {
     result[key] = Object.assign(clone(result[key] || {}), b[key]);
   }
 }
 
+// eslint-disable-next-line
 export let adobeIMS = {
   isSignedInUser: () => false,
 };
@@ -60,6 +68,7 @@ try {
   console.warn('Adobe IMS not available.');
 }
 
+// eslint-disable-next-line
 let profileData = null,
   meta = {};
 
@@ -84,10 +93,11 @@ async function profileAttributes () {
   
     return JSON.parse(sessionStorage.getItem(ProfileAttributes) || '{}');
   }
-
+  
   async function profileMerge (arg) {
     const tmp = await adobeIMS?.getProfile();
-  
+    
+    // eslint-disable-next-line
     return Object.assign({}, tmp, arg, {avatarUrl: adobeIMS.avatarUrl(tmp.userId)});
   }
   
@@ -119,7 +129,7 @@ async function profileAttributes () {
             profileData = clone(result);
 
             if (cstream) {
-              createStream();
+              // createStream();
             }
           } else {
             signOut();
@@ -138,7 +148,8 @@ async function profileAttributes () {
       if (Reflect.ownKeys(meta).length === 0) {
         meta = await profileAttributes();
       }
-  
+      
+      // eslint-disable-next-line
       const keys = ['industryInterests', 'role'],
         complete = Math.ceil(keys.filter(k => result[k].length > 0).length / keys.length * 100);
   
@@ -164,10 +175,12 @@ async function profileAttributes () {
         delete data[i];
       }
     });
-  
+    
+    // eslint-disable-next-line
     if (override.test(key) || replace === true) {
       data[key] = val;
     } else if (meta.types[key] === 'array') {
+      // eslint-disable-next-line
       if (data[key] === void 0 || replace === true) {
         data[key] = [val];
       } else if (Array.isArray(data[key]) === false) {

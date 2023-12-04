@@ -1,6 +1,6 @@
 import { isDocPage } from '../../scripts/scripts.js';
 import loadJWT from '../../scripts/auth/jwt.js';
-import { adobeIMS, updateProfile } from '../../scripts/data-service/profile.js';
+import { log, adobeIMS, updateProfile } from '../../scripts/data-service/profile.js';
 
 const CONFIG = {
   BOOKMARK_SET: 'Success! This is bookmarked to your profile.',
@@ -15,7 +15,7 @@ const CONFIG = {
   NOTICE_SET: 'URL copied',
 };
 
-const tooltipTemplate = function (sel, label, tiptext) {
+const tooltipTemplate = (sel, label, tiptext) => {
   const tooltipContent = `<div class="exl-tooltip">
         <span class="icon ${sel}"></span>
         <span class="exl-tooltip-label">${tiptext}</span></div>
@@ -23,7 +23,7 @@ const tooltipTemplate = function (sel, label, tiptext) {
   return tooltipContent;
 };
 
-const noticeTemplate = function (info) {
+const noticeTemplate = (info) => {
   const noticeContent = document.createElement('div');
   noticeContent.className = 'exl-notice';
   noticeContent.innerHTML = `<div class="icon-info"></div>
@@ -32,7 +32,7 @@ const noticeTemplate = function (info) {
   return noticeContent;
 };
 
-function sendNotice(noticelabel) {
+const sendNotice = (noticelabel) => {
   const sendNoticeContent = noticeTemplate(noticelabel);
   document.body.prepend(sendNoticeContent);
   const isExlNotice = document.querySelector('.exl-notice');
@@ -78,11 +78,15 @@ export function decorateBookmark(block) {
         log('Hooking bookmark failed. No id present.');
       } else {
         loadJWT().then(async (token) => {
+          // eslint-disable-next-line
           console.log(token, 'hello token');
           const getProfileData = await adobeIMS?.getProfile();
           const tempUP = await updateProfile('bookmarks', id);
+          // eslint-disable-next-line
           console.log(id, "hello id....");
+          // eslint-disable-next-line
           console.log(getProfileData, "hello getProfileData....");
+          // eslint-disable-next-line
           console.log(tempUP, "hello update profile if?....");
           // bookmarkAuthedToolTipIcon.classList.add('authed');
           bookmarkAuthed.addEventListener('click', async () => {
