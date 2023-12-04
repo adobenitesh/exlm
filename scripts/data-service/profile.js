@@ -9,6 +9,16 @@ export const profileAPI = '/api/profile';
 
 export const profileUrl = `${origin}${profileAPI}=?${lang}`;
 
+export function log (arg = '', {id = 'app', ts = true, type = 'log'} = {}) {
+  const timestamp = type !== 'error' && ts ? new Date().getTime() : 0;
+
+  if (timestamp > 0) {
+      console[type](arg instanceof Object ? arg : `[${id}:${timestamp}] ${arg}`);
+  } else {
+      console[type](arg);
+  }
+}
+
 export let adobeIMS = {
   isSignedInUser: () => false,
 };

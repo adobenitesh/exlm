@@ -2,16 +2,6 @@ import { isDocPage } from '../../scripts/scripts.js';
 import loadJWT from '../../scripts/auth/jwt.js';
 import { adobeIMS, updateProfile } from '../../scripts/data-service/profile.js';
 
-export function log (arg = '', {id = 'app', ts = true, type = 'log'} = {}) {
-    const timestamp = type !== 'error' && ts ? new Date().getTime() : 0;
-
-    if (timestamp > 0) {
-        console[type](arg instanceof Object ? arg : `[${id}:${timestamp}] ${arg}`);
-    } else {
-        console[type](arg);
-    }
-}
-
 const CONFIG = {
   BOOKMARK_SET: 'Success! This is bookmarked to your profile.',
   BOOKMARK_UNSET: 'Success! This is no longer bookmarked to your profile.',
