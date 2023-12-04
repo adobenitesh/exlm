@@ -9,6 +9,7 @@ export const profileAPI = '/api/profile';
 
 export const profileUrl = `${origin}${profileAPI}`;
 
+export const override = /^(recommended|votes)$/;
 export const Ready = 'ready';
 
 export function log (arg = '', {id = 'app', ts = true, type = 'log'} = {}) {
