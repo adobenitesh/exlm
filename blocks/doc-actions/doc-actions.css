@@ -31,7 +31,7 @@
   vertical-align: middle;
 }
 .exl-notice .icon-close {
-  background-image: url("../../icons/close.svg");
+  background-image: url("../../icons/icon-close.svg");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 15px;
@@ -40,6 +40,11 @@
   padding: 5px;
   width: 15px;
   vertical-align: middle;
+}
+
+.doc-action-wrapper {
+  position: sticky;
+  top: 0;
 }
 
 .doc-actions {
@@ -120,6 +125,7 @@
   background-position: center 2px;
   margin-right: 5px;
   transition: all 200ms ease-in-out;
+  /* stylelint-disable-next-line */
 }
 .doc-actions .copy-link .icon.copy-link-url:hover {
   background-color: var(--spectrum-gray-200);

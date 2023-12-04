@@ -1,4 +1,4 @@
-.exl-notice{
+.exl-notice {
   align-items: center;
   background: var(--spectrum-green-900);
   border-radius: 5px;
@@ -13,14 +13,14 @@
   top: 50px;
   z-index: 15;
 
-  &-content{
+  &-content {
     border-right: 1px solid var(--spectrum-gray-300);
     padding: 5px 15px 5px 5px;
     margin: 5px 0;
   }
 
-  & .icon-info{
-    background-image: url("../../icons/info-circle.svg");
+  & .icon-info {
+    background-image: url('../../icons/info-circle.svg');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 15px;
@@ -32,8 +32,8 @@
     vertical-align: middle;
   }
 
-  & .icon-close{
-    background-image: url("../../icons/close.svg");
+  & .icon-close {
+    background-image: url('../../icons/icon-close.svg');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 15px;
@@ -45,7 +45,12 @@
   }
 }
 
-.doc-actions{
+.doc-action-wrapper {
+  position: sticky;
+  top: 0;
+}
+
+.doc-actions {
   align-items: center;
   display: inline-flex;
   font-size: var(--spectrum-font-size-75);
@@ -75,7 +80,7 @@
         border-width: 4px;
         border-style: solid;
         border-color: var(--spectrum-gray-600) transparent transparent transparent;
-        content: "";
+        content: '';
         left: 50%;
         margin-left: -4px;
         position: absolute;
@@ -84,7 +89,7 @@
     }
   }
 
-  & .icon{
+  & .icon {
     background-size: 20px 20px;
     background-repeat: no-repeat;
     cursor: pointer;
@@ -95,11 +100,11 @@
     width: 20px;
   }
 
-  & .bookmark{
+  & .bookmark {
     margin-right: 10px;
 
-    & .icon.bookmark-icon{
-      background-image: url("../../icons/bookmark-outline.svg");
+    & .icon.bookmark-icon {
+      background-image: url('../../icons/bookmark-outline.svg');
       background-position: center 3px;
       cursor: inherit;
       margin-right: 2px;
@@ -108,13 +113,13 @@
         visibility: visible;
       }
     }
-    
-    &.auth .bookmark-icon{
+
+    &.auth .bookmark-icon {
       cursor: pointer;
     }
 
-    &.auth .bookmark-icon.authed{
-      background-image: url("../../icons/bookmark-active.svg");
+    &.auth .bookmark-icon.authed {
+      background-image: url('../../icons/bookmark-active.svg');
       background-position: center 3px;
       cursor: pointer;
 
@@ -123,24 +128,25 @@
       }
     }
 
-    &.auth .bookmark-icon:hover{
+    &.auth .bookmark-icon:hover {
       background-color: var(--spectrum-gray-200);
       border-radius: 4px;
     }
   }
 
-  & .copy-link{
-    & .icon.copy-link-url{
-      background-image: url("../../icons/copy-link.svg");
+  & .copy-link {
+    & .icon.copy-link-url {
+      background-image: url('../../icons/copy-link.svg');
       background-position: center 2px;
       margin-right: 5px;
       transition: all 200ms ease-in-out;
-    
-      &:hover{
+
+      &:hover {
         background-color: var(--spectrum-gray-200);
         border-radius: 4px;
       }
 
+      /* stylelint-disable-next-line */
       &:hover + .exl-tooltip-label {
         visibility: visible;
       }

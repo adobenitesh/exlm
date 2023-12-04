@@ -1,8 +1,3 @@
-import {hash} from '../auth/csrf.js';
-
-export const lang = document.querySelector('html').lang;
-export const origin = location.origin;
-
 // TODO: To be modified once we explore all other APIs
 /**
  * Fetches data from a specified URL using the Fetch API.
@@ -21,53 +16,4 @@ export default async function fetchData(url, options = { method: 'GET', headers:
   }
   const response = await fetch(url, options);
   return response;
-}
-
-const requests = new Map();
-
-export async function request (uri, options = {method: 'GET', headers: {}, body: '', params: {}}) {
-  const url = new URL(uri.includes('://') ? uri : `${origin}${uri}`);
-
-  if (url.href.startsWith(origin)) {
-    let llang = lang;
-
-    if (llang.length > 0) {
-      if (url.searchParams.has('lang') === false) {
-        url.searchParams.set('lang', llang);
-      } else {
-        llang = url.searchParams.get('lang');
-      }
-
-      if ('accept-language' in options.headers === false) {
-        options.headers[headerKeys.accept] = `${llang};q=0.9`;
-      }
-    }
-  }
-
-  if (options.params && Reflect.ownKeys(options.params).length) {
-    url.search = new URLSearchParams(options.params).toString();
-  }
-
-  const key = `${options.method || 'GET'}_${hash(url.href)}_${hash(options.headers[headerKeys.auth] || 'anon')}_${hash(JSON.stringify(options.body || ''))}`;
-
-  if (requests.has(key) === false) {
-    if (options.method === 'GET' || options.method === 'HEAD') {
-      delete options.body;
-    }
-
-    const promise = fetch(url.href, options).then(arg => {
-      requests.delete(key);
-
-      return arg;
-    }).catch(err => {
-      requests.delete(key);
-
-      throw err;
-    });
-
-    requests.set(key, promise);
-  }
-
-  // Returns cloned response to handle potential 1-n relationship
-  return requests.get(key).then(arg => arg.clone());
 }
