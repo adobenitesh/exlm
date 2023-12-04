@@ -4,7 +4,7 @@ import { JWT, Organization, Profile, ProfileAttributes } from '../auth/session-k
 import { request, headerKeys, headerValues } from '../request.js';
 
 export const lang = document.querySelector('html').lang;
-export const origin = "https://experienceleague.adobe.com/";
+export const origin = "https://experienceleague.adobe.com";
 export const profileAPI = '/api/profile';
 
 export const profileUrl = `${origin}${profileAPI}=?${lang}`;
