@@ -1,3 +1,4 @@
+import { loadIms } from '../../scripts/scripts.js';
 import { signOut } from '../../scripts/auth/auth-operations.js';
 import { JWT, Organization, Profile, ProfileAttributes } from '../auth/session-keys.js';
 import { request } from '../request.js';
@@ -8,10 +9,20 @@ export const profileAPI = '/api/profile';
 
 export const profileUrl = `${origin}${profileAPI}=?${lang}`;
 
+export let adobeIMS = {
+  isSignedInUser: () => false,
+};
+
+try {
+  const ims = await loadIms();
+  adobeIMS = ims.adobeIMS;
+} catch {
+  // eslint-disable-next-line no-console
+  console.warn('Adobe IMS not available.');
+}
+
 let profileData = null,
   meta = {};
-
-export let adobeIMS;
 
 async function profileAttributes () {
     
@@ -36,7 +47,7 @@ async function profileAttributes () {
   }
 
   async function profileMerge (arg) {
-    const tmp = await adobeIMS.getProfile();
+    const tmp = await adobeIMS?.getProfile();
   
     return Object.assign({}, tmp, arg, {avatarUrl: adobeIMS.avatarUrl(tmp.userId)});
   }
@@ -45,7 +56,7 @@ async function profileAttributes () {
     let result = null;
   
     if (reuse === false) {
-      const data = await adobeIMS.getProfile();
+      const data = await adobeIMS?.getProfile();
 
       if (data !== null) {
         if (sessionStorage.getItem(JWT) === null) {

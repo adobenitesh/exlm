@@ -1,6 +1,6 @@
-import { loadIms, isDocPage } from '../../scripts/scripts.js';
+import { isDocPage } from '../../scripts/scripts.js';
 import loadJWT from '../../scripts/auth/jwt.js';
-import { updateProfile } from '../../scripts/data-service/profile.js';
+import { adobeIMS, updateProfile } from '../../scripts/data-service/profile.js';
 
 export function log (arg = '', {id = 'app', ts = true, type = 'log'} = {}) {
     const timestamp = type !== 'error' && ts ? new Date().getTime() : 0;
@@ -57,17 +57,7 @@ function sendNotice(noticelabel) {
   }
 }
 
-let adobeIMS = {
-  isSignedInUser: () => false,
-};
 
-try {
-  const ims = await loadIms();
-  adobeIMS = ims.adobeIMS;
-} catch {
-  // eslint-disable-next-line no-console
-  console.warn('Adobe IMS not available.');
-}
 const isSignedIn = adobeIMS?.isSignedInUser();
 
 export function decorateBookmark(block) {
