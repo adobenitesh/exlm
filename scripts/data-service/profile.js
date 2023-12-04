@@ -8,6 +8,11 @@ export const profileAPI = '/api/profile';
 
 export const profileUrl = `${origin}${profileAPI}=?${lang}`;
 
+let profileData = null,
+  meta = {};
+
+export let adobeIMS;
+
 async function profileAttributes () {
     
     if (ProfileAttributes in sessionStorage === false) {
