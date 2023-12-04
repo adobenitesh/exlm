@@ -45,6 +45,11 @@ export const headerKeys = {
   lang: 'accept-language'
 };
 
+export const headervalues = {
+  html: 'text/html',
+  json: 'application/json'
+};
+
 export const lang = document.querySelector('html').lang;
 export const origin = "https://experienceleague.adobe.com/";
 
