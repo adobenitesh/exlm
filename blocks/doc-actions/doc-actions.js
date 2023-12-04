@@ -99,7 +99,7 @@ export function decorateBookmark(block) {
       } else {
         loadJWT().then(async (token) => {
           console.log(token, 'hello token');
-          const getProfileData = await getProfile();
+          const getProfileData = await adobeIMS?.getProfile();
           // await updateProfile('bookmarks', id);
           console.log(id, "hello id....");
           console.log(getProfileData, "hello getProfileData....");
