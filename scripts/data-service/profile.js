@@ -19,6 +19,32 @@ export function log (arg = '', {id = 'app', ts = true, type = 'log'} = {}) {
   }
 }
 
+const sC = typeof structuredClone === 'function';
+
+export function clone (arg = {}, transferables = []) {
+  let result;
+
+  if (sC) {
+    result = structuredClone(arg, transferables);
+  } else {
+    result = JSON.parse(JSON.stringify(arg));
+
+    for (const key of transferables) {
+      result[key] = arg[key];
+    }
+  }
+
+  return result;
+}
+
+export function merge (a = {}, b = {}) {
+  let result = clone(a);
+
+  for (const key of Reflect.ownKeys(b)) {
+    result[key] = Object.assign(clone(result[key] || {}), b[key]);
+  }
+}
+
 export let adobeIMS = {
   isSignedInUser: () => false,
 };
