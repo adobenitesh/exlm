@@ -9,6 +9,8 @@ export const profileAPI = '/api/profile';
 
 export const profileUrl = `${origin}${profileAPI}`;
 
+export const Ready = 'ready';
+
 export function log (arg = '', {id = 'app', ts = true, type = 'log'} = {}) {
   const timestamp = type !== 'error' && ts ? new Date().getTime() : 0;
 
