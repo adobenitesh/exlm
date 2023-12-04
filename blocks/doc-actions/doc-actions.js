@@ -1,5 +1,5 @@
 import { loadIms, isDocPage } from '../../scripts/scripts.js';
-// import { loadJWT } from '../../scripts/auth/jwt.js';
+import { loadJWT } from '../../scripts/auth/jwt.js';
 // import { updateProfile } from '../../scripts/data-service/profile.js';
 
 const CONFIG = {
