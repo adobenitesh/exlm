@@ -79,7 +79,7 @@ export function decorateBookmark(block){
             if (id.length === 0) {
                 log('Hooking bookmark failed. No id present.');
             } else{
-                loadJWT().then(async () => {
+                loadJWT().then(async (token) => {
                     console.log(token, "hello token");
                     bookmarkAuthed.addEventListener('click', async () => {
                         if(bookmarkAuthedToolTipIcon.classList.contains("authed")){
