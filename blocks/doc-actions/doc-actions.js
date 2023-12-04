@@ -1,8 +1,6 @@
 import { loadIms, isDocPage } from '../../scripts/scripts.js';
-import { loadJWT } from '../../scripts/auth/jwt.js';
-import { updateProfile } from '../../scripts/data-service/profile.js';
-
-console.log(profile, "hello profile");
+// import { loadJWT } from '../../scripts/auth/jwt.js';
+// import { updateProfile } from '../../scripts/data-service/profile.js';
 
 const CONFIG = {
     BOOKMARK_SET: 'Success! This is bookmarked to your profile.',
@@ -81,16 +79,16 @@ export function decorateBookmark(block){
             if (id.length === 0) {
                 log('Hooking bookmark failed. No id present.');
             } else{
-                loadJWT().then(async (token) => {
+                loadJWT().then(async () => {
                     console.log(token, "hello token");
                     bookmarkAuthed.addEventListener('click', async () => {
                         if(bookmarkAuthedToolTipIcon.classList.contains("authed")){
-                            await updateProfile('bookmarks', id);
+                            // await updateProfile('bookmarks', id);
                             bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_SET;
                             bookmarkAuthedToolTipIcon.classList.remove("authed");
                             sendNotice(CONFIG.BOOKMARK_UNSET);
                         } else {
-                            await updateProfile('bookmarks', id);
+                            // await updateProfile('bookmarks', id);
                             bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_REMOVE;
                             bookmarkAuthedToolTipIcon.classList.add("authed");
                             sendNotice(CONFIG.BOOKMARK_SET);
