@@ -160,6 +160,7 @@ async function profileAttributes () {
   export async function bookmark (el, arg) {
     if (authenticated) {
       await updateProfile('bookmarks', arg);
+      console.log(arg, "hello Arggg....");
   
       render(() => {
         const icon = el.querySelector('.icon');
