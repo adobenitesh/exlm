@@ -1,5 +1,8 @@
 import { loadIms } from '../scripts.js';
 import { signOut } from '../auth/auth-operations.js';
+import loadJWT from '../auth/jwt.js';
+import csrf from '../auth/csrf.js';
+import { JWTTokenUrl } from '../urls.js';
 import { JWT, Organization, Profile, ProfileAttributes } from '../auth/session-keys.js';
 import { request, headerKeys, headerValues } from '../request.js';
 
@@ -109,7 +112,7 @@ async function profileAttributes () {
 
       if (data !== null) {
         if (sessionStorage.getItem(JWT) === null) {
-          await token(data);
+          await loadJWT(data);
         }
 
         if (profileData === null || explicit) {
@@ -205,7 +208,7 @@ async function profileAttributes () {
         authorization: sessionStorage.getItem(JWT),
         accept: 'application/json',
         'content-type': 'application/json-patch+json',
-        'x-csrf-token': await csrf()
+        'x-csrf-token': await csrf(JWTTokenUrl)
       },
       body: JSON.stringify([{op: 'replace', path: `/${key}`, value: data[key]}])
     });
