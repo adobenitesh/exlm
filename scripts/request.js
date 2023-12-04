@@ -45,7 +45,7 @@ export const headerKeys = {
   lang: 'accept-language'
 };
 
-export const headervalues = {
+export const headerValues = {
   html: 'text/html',
   json: 'application/json'
 };
