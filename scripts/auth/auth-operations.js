@@ -1,11 +1,5 @@
 import { COVEO_TOKEN, JWT } from './session-keys.js';
 
-export let authenticated = false;
-
-export function authenticate (arg = false) {
-  authenticated = arg;
-}
-
 export function signIn() {
   sessionStorage.removeItem(COVEO_TOKEN);
   window.adobeIMS?.signIn();

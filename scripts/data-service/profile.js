@@ -1,4 +1,4 @@
-import {authenticated, signOut} from '../../scripts/auth/auth-operations.js';
+import { signOut } from '../../scripts/auth/auth-operations.js';
 import { JWT, Organization, Profile, ProfileAttributes } from '../auth/session-keys.js';
 import { request } from '../request.js';
 
@@ -40,41 +40,37 @@ async function profileAttributes () {
     let result = null;
   
     if (reuse === false) {
-      if (authenticated) {
-        const data = await adobeIMS.getProfile();
-  
-        if (data !== null) {
-          if (sessionStorage.getItem(JWT) === null) {
-            await token(data);
-          }
-  
-          if (profileData === null || explicit) {
-            log('Retrieving Experience League profile');
-            const res = await request(profileUrl, {
-              credentials: 'include',
-              headers: {
-                [headerKeys.auth]: sessionStorage.getItem(JWT),
-                [headerKeys.accept]: headerValues.json
-              }
-            });
-  
-            if (res.ok && res.status === 200) {
-              const arg = await res.json();
-  
-              result = await profileMerge(arg.data);
-              profileData = clone(result);
-  
-              if (cstream) {
-                createStream();
-              }
-            } else {
-              signOut();
+      const data = await adobeIMS.getProfile();
+
+      if (data !== null) {
+        if (sessionStorage.getItem(JWT) === null) {
+          await token(data);
+        }
+
+        if (profileData === null || explicit) {
+          log('Retrieving Experience League profile');
+          const res = await request(profileUrl, {
+            credentials: 'include',
+            headers: {
+              [headerKeys.auth]: sessionStorage.getItem(JWT),
+              [headerKeys.accept]: headerValues.json
+            }
+          });
+
+          if (res.ok && res.status === 200) {
+            const arg = await res.json();
+
+            result = await profileMerge(arg.data);
+            profileData = clone(result);
+
+            if (cstream) {
+              createStream();
             }
           } else {
-            result = clone(profileData);
+            signOut();
           }
         } else {
-          signOut();
+          result = clone(profileData);
         }
       } else {
         signOut();
@@ -155,22 +151,5 @@ async function profileAttributes () {
     }
   
     return profileData;
-  }
-  
-  export async function bookmark (el, arg) {
-    if (authenticated) {
-      await updateProfile('bookmarks', arg);
-      console.log(arg, "hello Arggg....");
-  
-      render(() => {
-        const icon = el.querySelector('.icon');
-  
-        for (const klass of classes) {
-          icon.classList.toggle(klass);
-        }
-      });
-    }
-  
-    return arg;
   }
   
