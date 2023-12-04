@@ -1,4 +1,5 @@
-import {JWT, Organization, Profile, ProfileAttributes} from '../auth/session-keys.js';
+import { JWT, Organization, Profile, ProfileAttributes } from '../auth/session-keys.js';
+import { request } from '../request.js';
 
 export const lang = document.querySelector('html').lang;
 export const origin = "https://experienceleague.adobe.com/";
