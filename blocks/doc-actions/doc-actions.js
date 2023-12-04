@@ -100,9 +100,10 @@ export function decorateBookmark(block) {
         loadJWT().then(async (token) => {
           console.log(token, 'hello token');
           const getProfileData = await adobeIMS?.getProfile();
-          // await updateProfile('bookmarks', id);
+          const tempUP = await updateProfile('bookmarks', id);
           console.log(id, "hello id....");
           console.log(getProfileData, "hello getProfileData....");
+          console.log(tempUP, "hello update profile if?....");
           // bookmarkAuthedToolTipIcon.classList.add('authed');
           bookmarkAuthed.addEventListener('click', async () => {
             if (bookmarkAuthedToolTipIcon.classList.contains('authed')) {
