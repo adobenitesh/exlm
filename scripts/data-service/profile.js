@@ -1,3 +1,4 @@
+import {authenticated, signOut} from '../../scripts/auth/auth-operations.js';
 import { JWT, Organization, Profile, ProfileAttributes } from '../auth/session-keys.js';
 import { request } from '../request.js';
 
@@ -67,16 +68,16 @@ async function profileAttributes () {
                 createStream();
               }
             } else {
-              signout();
+              signOut();
             }
           } else {
             result = clone(profileData);
           }
         } else {
-          signout();
+          signOut();
         }
       } else {
-        signout();
+        signOut();
       }
     } else {
       result = clone(profileData);
