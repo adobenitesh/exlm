@@ -99,9 +99,10 @@ export function decorateBookmark(block) {
       } else {
         loadJWT().then(async (token) => {
           console.log(token, 'hello token');
+          await updateProfile('bookmarks', id);
+          bookmarkAuthedToolTipIcon.classList.add('authed');
           bookmarkAuthed.addEventListener('click', async () => {
             if (bookmarkAuthedToolTipIcon.classList.contains('authed')) {
-                await updateProfile('bookmarks', id);
                 bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_SET;
                 bookmarkAuthedToolTipIcon.classList.remove('authed');
                 sendNotice(CONFIG.BOOKMARK_UNSET);
