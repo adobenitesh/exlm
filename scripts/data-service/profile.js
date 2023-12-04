@@ -7,7 +7,7 @@ export const lang = document.querySelector('html').lang;
 export const origin = "https://experienceleague.adobe.com";
 export const profileAPI = '/api/profile';
 
-export const profileUrl = `${origin}${profileAPI}=?${lang}`;
+export const profileUrl = `${origin}${profileAPI}`;
 
 export function log (arg = '', {id = 'app', ts = true, type = 'log'} = {}) {
   const timestamp = type !== 'error' && ts ? new Date().getTime() : 0;
