@@ -1,5 +1,8 @@
 import { loadIms, isDocPage } from '../../scripts/scripts.js';
+import loadJWT from '../../auth/jwt.js';
 import { updateProfile } from '../../scripts/data-service/profile.js';
+
+console.log(profile, "hello profile");
 
 const CONFIG = {
     BOOKMARK_SET: 'Success! This is bookmarked to your profile.',
@@ -59,12 +62,6 @@ try {
 }
 const isSignedIn = adobeIMS?.isSignedInUser();
 
-if (isSignedIn) {
-    loadJWT().then(async () => {
-        //
-    });
-} 
-
 export function decorateBookmark(block){
     const id = ((document.querySelector('meta[name="id"]') || {}).content || '').trim();
     const unAuthBookmark = document.createElement('div');
@@ -84,18 +81,21 @@ export function decorateBookmark(block){
             if (id.length === 0) {
                 log('Hooking bookmark failed. No id present.');
             } else{
-                bookmarkAuthed.addEventListener('click', async () => {
-                    if(bookmarkAuthedToolTipIcon.classList.contains("authed")){
-                        await updateProfile('bookmarks', id);
-                        bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_SET;
-                        bookmarkAuthedToolTipIcon.classList.remove("authed");
-                        sendNotice(CONFIG.BOOKMARK_UNSET);
-                    } else {
-                        await updateProfile('bookmarks', id);
-                        bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_REMOVE;
-                        bookmarkAuthedToolTipIcon.classList.add("authed");
-                        sendNotice(CONFIG.BOOKMARK_SET);
-                    }
+                loadJWT().then(async (token) => {
+                    console.log(token, "hello token");
+                    bookmarkAuthed.addEventListener('click', async () => {
+                        if(bookmarkAuthedToolTipIcon.classList.contains("authed")){
+                            await updateProfile('bookmarks', id);
+                            bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_SET;
+                            bookmarkAuthedToolTipIcon.classList.remove("authed");
+                            sendNotice(CONFIG.BOOKMARK_UNSET);
+                        } else {
+                            await updateProfile('bookmarks', id);
+                            bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_REMOVE;
+                            bookmarkAuthedToolTipIcon.classList.add("authed");
+                            sendNotice(CONFIG.BOOKMARK_SET);
+                        }
+                    });
                 });
             }
         }
