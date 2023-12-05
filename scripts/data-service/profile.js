@@ -151,11 +151,11 @@ export async function updateProfile(key, val, replace = false) {
   }
 
   // TODO - explore meta.write - writes does not seem to be an object anywhere
-  Object.keys(data).forEach((i) => {
-    if (meta.write.includes(i) === false) {
-      delete data[i];
-    }
-  });
+  // Object.keys(data).forEach((i) => {
+  //   if (meta.write.includes(i) === false) {
+  //     delete data[i];
+  //   }
+  // });
 
   // eslint-disable-next-line
   if (override.test(key) || replace === true) {
