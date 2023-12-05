@@ -81,7 +81,7 @@ export async function request(uri, options = { method: 'GET', headers: {}, body:
     }
   }
 
-  if (options.params || Object.keys(options.params).length > 0) {
+  if (options.params || {}) {
     url.search = new URLSearchParams(options.params).toString();
   }
 

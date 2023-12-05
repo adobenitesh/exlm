@@ -77,9 +77,7 @@ export function decorateBookmark(block) {
       if (id.length === 0) {
         console.log('Hooking bookmark failed. No id present.');
       } else {
-        loadJWT().then(async (token) => {
-          // eslint-disable-next-line
-          console.log(token, 'hello token');
+        loadJWT().then(async () => {
           const getProfileData = await adobeIMS?.getProfile();
           const profileAttr = await profileAttributes();
           const tempUP = await updateProfile('bookmarks', id);
