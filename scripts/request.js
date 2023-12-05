@@ -60,10 +60,6 @@ const requests = new Map();
 
 export async function request(url, options = { method: 'GET', headers: {}, body: '', params: {} }) {
 
-  if (options.params || {}) {
-    url.search = new URLSearchParams(options.params).toString();
-  }
-
   const key = `${options.method || 'GET'}_${hash(url)}_${hash(options.headers[headerKeys.auth] || 'anon')}_${hash(
     JSON.stringify(options.body || ''),
   )}`;
