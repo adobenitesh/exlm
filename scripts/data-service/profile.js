@@ -90,16 +90,13 @@ export async function profile(reuse = false, cstream = true, explicit = false) {
     const data = await adobeIMS?.getProfile();
 
     if (data !== null) {
-      if (sessionStorage.getItem(JWT) === null) {
-        await loadJWT(data);
-      }
 
       if (profileData === null || explicit) {
         console.log('Retrieving Experience League profile');
         const res = await request(profileUrl, {
           credentials: 'include',
           headers: {
-            [headerKeys.auth]: sessionStorage.getItem(JWT),
+            [headerKeys.auth]: await loadJWT(),
             [headerKeys.accept]: headerValues.json,
           },
         });
@@ -177,7 +174,7 @@ export async function updateProfile(key, val, replace = false) {
     method: 'PATCH',
     credentials: 'include',
     headers: {
-      authorization: sessionStorage.getItem(JWT),
+      authorization: await loadJWT(),
       accept: 'application/json',
       'content-type': 'application/json-patch+json',
       'x-csrf-token': await csrf(JWTTokenUrl),
