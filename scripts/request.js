@@ -56,36 +56,15 @@ export const headerValues = {
   json: 'application/json',
 };
 
-// eslint-disable-next-line
-export const lang = document.querySelector('html').lang;
-export const origin = 'https://experienceleague.adobe.com/';
-
 const requests = new Map();
 
-export async function request(uri, options = { method: 'GET', headers: {}, body: '', params: {} }) {
-  const url = new URL(uri.includes('://') ? uri : `${origin}${uri}`);
-
-  if (url.href.startsWith(origin)) {
-    let llang = lang;
-
-    if (llang.length > 0) {
-      if (url.searchParams.has('lang') === false) {
-        url.searchParams.set('lang', llang);
-      } else {
-        llang = url.searchParams.get('lang');
-      }
-
-      if ('accept-language' in options.headers === false) {
-        options.headers[headerKeys.accept] = `${llang};q=0.9`;
-      }
-    }
-  }
+export async function request(url, options = { method: 'GET', headers: {}, body: '', params: {} }) {
 
   if (options.params || {}) {
     url.search = new URLSearchParams(options.params).toString();
   }
 
-  const key = `${options.method || 'GET'}_${hash(url.href)}_${hash(options.headers[headerKeys.auth] || 'anon')}_${hash(
+  const key = `${options.method || 'GET'}_${hash(url)}_${hash(options.headers[headerKeys.auth] || 'anon')}_${hash(
     JSON.stringify(options.body || ''),
   )}`;
 
@@ -94,7 +73,7 @@ export async function request(uri, options = { method: 'GET', headers: {}, body:
       delete options.body;
     }
 
-    const promise = fetch(url.href, options)
+    const promise = fetch(url, options)
       .then((arg) => {
         requests.delete(key);
 
