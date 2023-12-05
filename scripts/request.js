@@ -18,7 +18,7 @@ export default async function fetchData(url, options = { method: 'GET', headers:
   return response;
 }
 
-export function hash (arg = '') {
+export function hash(arg = '') {
   const nth = arg.length;
   let result = 0;
 
@@ -47,22 +47,22 @@ export const headerKeys = {
   auth: 'authorization',
   csrf: 'x-csrf-token',
   ctype: 'content-type',
-  lang: 'accept-language'
+  lang: 'accept-language',
 };
 
 // eslint-disable-next-line
 export const headerValues = {
   html: 'text/html',
-  json: 'application/json'
+  json: 'application/json',
 };
 
 // eslint-disable-next-line
 export const lang = document.querySelector('html').lang;
-export const origin = "https://experienceleague.adobe.com/";
+export const origin = 'https://experienceleague.adobe.com/';
 
 const requests = new Map();
 
-export async function request (uri, options = {method: 'GET', headers: {}, body: '', params: {}}) {
+export async function request(uri, options = { method: 'GET', headers: {}, body: '', params: {} }) {
   const url = new URL(uri.includes('://') ? uri : `${origin}${uri}`);
 
   if (url.href.startsWith(origin)) {
@@ -81,30 +81,34 @@ export async function request (uri, options = {method: 'GET', headers: {}, body:
     }
   }
 
-  if (options.params && Reflect.ownKeys(options.params).length) {
+  if (options.params || Object.keys(options.params).length > 0) {
     url.search = new URLSearchParams(options.params).toString();
   }
 
-  const key = `${options.method || 'GET'}_${hash(url.href)}_${hash(options.headers[headerKeys.auth] || 'anon')}_${hash(JSON.stringify(options.body || ''))}`;
+  const key = `${options.method || 'GET'}_${hash(url.href)}_${hash(options.headers[headerKeys.auth] || 'anon')}_${hash(
+    JSON.stringify(options.body || ''),
+  )}`;
 
   if (requests.has(key) === false) {
     if (options.method === 'GET' || options.method === 'HEAD') {
       delete options.body;
     }
 
-    const promise = fetch(url.href, options).then(arg => {
-      requests.delete(key);
+    const promise = fetch(url.href, options)
+      .then((arg) => {
+        requests.delete(key);
 
-      return arg;
-    }).catch(err => {
-      requests.delete(key);
+        return arg;
+      })
+      .catch((err) => {
+        requests.delete(key);
 
-      throw err;
-    });
+        throw err;
+      });
 
     requests.set(key, promise);
   }
 
   // Returns cloned response to handle potential 1-n relationship
-  return requests.get(key).then(arg => arg.clone());
+  return requests.get(key).then((arg) => arg.clone());
 }
