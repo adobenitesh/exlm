@@ -78,8 +78,9 @@ export function decorateBookmark(block) {
       } else {
         loadJWT().then(async () => {
           profile().then( async (data) => {
-            console.log(typeof data, "data array type");
-            console.log(data.bookmarks, "profile > bookmark array");
+            if(data.bookmarks.includes(id)){
+              bookmarkAuthedToolTipIcon.classList.add('authed');
+            }
           });
           
           bookmarkAuthed.addEventListener('click', async () => {
