@@ -79,7 +79,7 @@ export function decorateBookmark(block) {
         loadJWT().then(async () => {
           profile().then( async (data) => {
             console.log(typeof data, "data array type");
-            console.log(data.bookmark, "profile > bookmark array");
+            console.log(data.bookmarks, "profile > bookmark array");
           });
           
           bookmarkAuthed.addEventListener('click', async () => {
