@@ -55,7 +55,7 @@ try {
 let profileData = null,
   meta = {};
 
-export async function profileAttributes() {
+async function profileAttributes() {
   if (ProfileAttributes in sessionStorage === false) {
     const res = await request(profileUrl, {
       credentials: 'include',

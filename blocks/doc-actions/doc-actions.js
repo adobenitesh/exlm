@@ -77,11 +77,10 @@ export function decorateBookmark(block) {
         console.log('Hooking bookmark failed. No id present.');
       } else {
         loadJWT().then(async () => {
-          const getProfileCheck = profile();
+          const getProfileCheck = profile().then( async (data) => {
+            console.log(data, "inside promise profile Data");
+          });
           console.log(getProfileCheck, 'hello get profile check');
-
-          const getProfileAttributes = profileAttributes();
-          console.log(getProfileAttributes, 'hello get getProfileAttributes');
           
           bookmarkAuthed.addEventListener('click', async () => {
             if (bookmarkAuthedToolTipIcon.classList.contains('authed')) {
