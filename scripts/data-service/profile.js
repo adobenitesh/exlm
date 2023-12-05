@@ -2,16 +2,9 @@ import { loadIms } from '../scripts.js';
 import { signOut } from '../auth/auth-operations.js';
 import loadJWT from '../auth/jwt.js';
 import csrf from '../auth/csrf.js';
-import { JWTTokenUrl } from '../urls.js';
+import { JWTTokenUrl, profileUrl } from '../urls.js';
 import { JWT, Profile, ProfileAttributes } from '../auth/session-keys.js';
 import { request, headerKeys, headerValues } from '../request.js';
-
-// eslint-disable-next-line
-export const lang = document.querySelector('html').lang;
-export const origin = 'https://experienceleague.adobe.com';
-export const profileAPI = '/api/profile';
-
-export const profileUrl = `${origin}${profileAPI}`;
 
 export const override = /^(recommended|votes)$/;
 
@@ -137,6 +130,7 @@ export async function profile(reuse = false, cstream = true, explicit = false) {
     if (!meta || Object.keys(meta).length === 0) {
       meta = await profileAttributes();
     }
+
     sessionStorage.setItem(Profile, JSON.stringify(result));
   }
 
