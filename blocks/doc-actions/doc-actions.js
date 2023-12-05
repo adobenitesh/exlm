@@ -1,6 +1,6 @@
 import { isDocPage } from '../../scripts/scripts.js';
 import loadJWT from '../../scripts/auth/jwt.js';
-import { adobeIMS, profile, profileAttributes, updateProfile } from '../../scripts/data-service/profile.js';
+import { adobeIMS, profile, updateProfile } from '../../scripts/data-service/profile.js';
 
 const CONFIG = {
   BOOKMARK_SET: 'Success! This is bookmarked to your profile.',
