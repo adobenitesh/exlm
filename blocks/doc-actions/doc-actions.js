@@ -78,19 +78,6 @@ export function decorateBookmark(block) {
         console.log('Hooking bookmark failed. No id present.');
       } else {
         loadJWT().then(async () => {
-          const getProfileData = await adobeIMS?.getProfile();
-          const profileAttr = await profileAttributes();
-          const tempUP = await updateProfile('bookmarks', id);
-          // eslint-disable-next-line
-          console.log(id, "hello id....");
-
-          console.log(profileAttr, "hello profileAttr....");
-          // eslint-disable-next-line
-          console.log(getProfileData, "hello getProfileData....");
-          // eslint-disable-next-line
-          console.log(tempUP, "hello update profile if?....");
-          // bookmarkAuthedToolTipIcon.classList.add('authed');
-          
           bookmarkAuthed.addEventListener('click', async () => {
             if (bookmarkAuthedToolTipIcon.classList.contains('authed')) {
                 await updateProfile('bookmarks', id);
