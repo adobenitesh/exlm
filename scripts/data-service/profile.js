@@ -102,7 +102,7 @@ export async function profile(reuse = false, cstream = true, explicit = false) {
       }
 
       if (profileData === null || explicit) {
-        log('Retrieving Experience League profile');
+        console.log('Retrieving Experience League profile');
         const res = await request(profileUrl, {
           credentials: 'include',
           headers: {
