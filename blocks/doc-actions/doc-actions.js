@@ -80,6 +80,7 @@ export function decorateBookmark(block) {
           profile().then( async (data) => {
             if(data.bookmarks.includes(id)){
               bookmarkAuthedToolTipIcon.classList.add('authed');
+              bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_REMOVE;
             }
           });
           
