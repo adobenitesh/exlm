@@ -1,6 +1,6 @@
 import { isDocPage } from '../../scripts/scripts.js';
 import loadJWT from '../../scripts/auth/jwt.js';
-import { log, adobeIMS, updateProfile } from '../../scripts/data-service/profile.js';
+import { adobeIMS, profileAttributes, updateProfile } from '../../scripts/data-service/profile.js';
 
 const CONFIG = {
   BOOKMARK_SET: 'Success! This is bookmarked to your profile.',
@@ -75,20 +75,24 @@ export function decorateBookmark(block) {
       const bookmarkAuthedToolTipLabel = bookmarkAuthed.querySelector('.exl-tooltip-label');
       const bookmarkAuthedToolTipIcon = bookmarkAuthed.querySelector('.icon.bookmark-icon');
       if (id.length === 0) {
-        log('Hooking bookmark failed. No id present.');
+        console.log('Hooking bookmark failed. No id present.');
       } else {
         loadJWT().then(async (token) => {
           // eslint-disable-next-line
           console.log(token, 'hello token');
           const getProfileData = await adobeIMS?.getProfile();
+          const profileAttr = await profileAttributes();
           const tempUP = await updateProfile('bookmarks', id);
           // eslint-disable-next-line
           console.log(id, "hello id....");
+
+          console.log(profileAttr, "hello profileAttr....");
           // eslint-disable-next-line
           console.log(getProfileData, "hello getProfileData....");
           // eslint-disable-next-line
           console.log(tempUP, "hello update profile if?....");
           // bookmarkAuthedToolTipIcon.classList.add('authed');
+          
           bookmarkAuthed.addEventListener('click', async () => {
             if (bookmarkAuthedToolTipIcon.classList.contains('authed')) {
                 await updateProfile('bookmarks', id);

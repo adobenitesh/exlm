@@ -3,7 +3,7 @@ import { signOut } from '../auth/auth-operations.js';
 import loadJWT from '../auth/jwt.js';
 import csrf from '../auth/csrf.js';
 import { JWTTokenUrl } from '../urls.js';
-import { JWT, Organization, Profile, ProfileAttributes } from '../auth/session-keys.js';
+import { JWT, Profile, ProfileAttributes } from '../auth/session-keys.js';
 import { request, headerKeys, headerValues } from '../request.js';
 
 // eslint-disable-next-line
@@ -14,19 +14,6 @@ export const profileAPI = '/api/profile';
 export const profileUrl = `${origin}${profileAPI}`;
 
 export const override = /^(recommended|votes)$/;
-export const Ready = 'ready';
-
-export function log(arg = '', { id = 'app', ts = true, type = 'log' } = {}) {
-  const timestamp = type !== 'error' && ts ? new Date().getTime() : 0;
-
-  if (timestamp > 0) {
-    // eslint-disable-next-line
-    console[type](arg instanceof Object ? arg : `[${id}:${timestamp}] ${arg}`);
-  } else {
-    // eslint-disable-next-line
-    console[type](arg);
-  }
-}
 
 const sC = typeof structuredClone === 'function';
 
@@ -75,7 +62,7 @@ try {
 let profileData = null,
   meta = {};
 
-async function profileAttributes() {
+export async function profileAttributes() {
   if (ProfileAttributes in sessionStorage === false) {
     const res = await request(profileUrl, {
       credentials: 'include',
@@ -150,16 +137,7 @@ export async function profile(reuse = false, cstream = true, explicit = false) {
     if (!meta || Object.keys(meta).length === 0) {
       meta = await profileAttributes();
     }
-
-    // eslint-disable-next-line
-    const keys = ['industryInterests', 'role'],
-      complete = Math.ceil((keys.filter((k) => result[k].length > 0).length / keys.length) * 100);
-
-    sessionStorage.setItem(Ready, complete === 100);
-    sessionStorage.setItem(Organization, result.org || '');
     sessionStorage.setItem(Profile, JSON.stringify(result));
-    //   localStorage.setItem(SolutionLevel, result.level.join(','));
-    //   localStorage.setItem(SolutionRole, result.role.join(','));
   }
 
   return result;
