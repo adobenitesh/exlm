@@ -96,7 +96,12 @@ export function decorateBookmark(block) {
               bookmarkAuthedToolTipIcon.classList.add('authed');
               sendNotice(CONFIG.BOOKMARK_SET);
             }
+            bookmarkAuthed.style.pointerEvents = "none";
           });
+
+          setTimeout(() => {
+            bookmarkAuthed.style.pointerEvents = "auto";
+          }, 3000);
         });
       }
     }
