@@ -25,9 +25,9 @@ const tooltipTemplate = (sel, label, tiptext) => {
 
 const noticeTemplate = (info) => {
   const noticeContent = document.createElement('div');
-  noticeContent.className = 'exl-notice';
+  noticeContent.className = 'exl-toast';
   noticeContent.innerHTML = `<div class="icon-info"></div>
-        <div class="exl-notice-content">${info}</div>
+        <div class="exl-toast-content">${info}</div>
         <div class="icon-close"></div>`;
   return noticeContent;
 };
@@ -35,9 +35,9 @@ const noticeTemplate = (info) => {
 const sendNotice = (noticelabel) => {
   const sendNoticeContent = noticeTemplate(noticelabel);
   document.body.prepend(sendNoticeContent);
-  const isExlNotice = document.querySelector('.exl-notice');
+  const isExlNotice = document.querySelector('.exl-toast');
   if (isExlNotice) {
-    document.querySelector('.exl-notice .icon-close').addEventListener('click', () => {
+    document.querySelector('.exl-toast .icon-close').addEventListener('click', () => {
       isExlNotice.remove();
     });
 

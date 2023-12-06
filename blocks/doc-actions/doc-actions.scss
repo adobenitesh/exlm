@@ -1,6 +1,6 @@
 @import '../../styles/sass/breakpoints'; 
 
-.exl-notice {
+.exl-toast {
   align-items: center;
   background: var(--spectrum-green-900);
   border-radius: 5px;
@@ -157,7 +157,6 @@
         border-radius: 4px;
       }
 
-      /* stylelint-disable-next-line */
       &:hover + .exl-tooltip-label {
         visibility: visible;
       }
