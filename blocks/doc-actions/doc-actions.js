@@ -47,31 +47,15 @@ const sendNotice = (noticelabel) => {
   }
 };
 
-const selects = (selectors, content) => {
-  [...selectors].forEach((sel) => {
-    sel.appendChild(content);
-  })
-};
-
-function hasArticleMetadataCreatedby() {
-  return document.querySelector('.article-metadata-createdby-wrapper');
-}
-
 function decorateBookmarkMobileBlock() {
   const docActionsMobile = document.createElement("div");
     docActionsMobile.classList.add('doc-actions-mobile');
-    if(hasArticleMetadataCreatedby()){
-      hasArticleMetadataCreatedby().appendChild(docActionsMobile);
+    if(document.querySelector('.article-metadata-createdby-wrapper')){
+      document.querySelector('.article-metadata-createdby-wrapper').appendChild(docActionsMobile);
     }
 }
 
 const isSignedIn = adobeIMS?.isSignedInUser();
-
-const isDocActionsMobile = () =>{
-  if(document.querySelector('.doc-actions-mobile')){
-    return document.querySelector('.doc-actions-mobile');
-  }
-}
 
 export function decorateBookmark(block) {
   const id = ((document.querySelector('meta[name="id"]') || {}).content || '').trim();
@@ -92,7 +76,10 @@ export function decorateBookmark(block) {
   );
 
   if (isSignedIn) {
-    selects([block, isDocActionsMobile()], authBookmark);
+    block.appendChild(authBookmark);
+    if(document.querySelector('.doc-actions-mobile')){
+      document.querySelector('.doc-actions-mobile').appendChild(authBookmark.cloneNode(true));
+    }
     const bookmarkAuthed = document.querySelectorAll('.bookmark.auth');
     if (bookmarkAuthed.length > 0) {
       bookmarkAuthed.forEach((elem) =>{
@@ -132,7 +119,10 @@ export function decorateBookmark(block) {
       });
     }
   } else {
-    selects([block, isDocActionsMobile()], unAuthBookmark);
+    if(document.querySelector('.doc-actions-mobile')){
+      document.querySelector('.doc-actions-mobile').appendChild(unAuthBookmark.cloneNode(true));
+    }
+    block.appendChild(unAuthBookmark);
   }
 }
 
@@ -141,7 +131,10 @@ export function decorateCopyLink(block) {
   copyLinkDivNode.className = 'copy-link';
   copyLinkDivNode.innerHTML = tooltipTemplate('copy-link-url', CONFIG.NOTICE_LABEL, CONFIG.NOTICE_TIPTEXT);
 
-  selects([block, isDocActionsMobile()], copyLinkDivNode);
+  if(document.querySelector('.doc-actions-mobile')){
+    document.querySelector('.doc-actions-mobile').appendChild(copyLinkDivNode.cloneNode(true));
+  }
+  block.appendChild(copyLinkDivNode);
   const copyLinkIcons = document.querySelectorAll('.icon.copy-link-url');
     copyLinkIcons.forEach((copyLinkIcon) =>{
       if (copyLinkIcon) {

@@ -16,7 +16,7 @@
   z-index: 15;
 
   &-content {
-    border-right: 1px solid rgba(255, 255, 255, 0.25);
+    border-right: 1px solid rgba(255 255 255 / 25%);
     color: var(--spectrum-gray-50);
     font-weight: var(--font-weight-400);
     line-height: 18.2px;
@@ -167,6 +167,7 @@
 
 .doc-actions-wrapper {
   display: none;
+
   @include breakpoint(desktop) {
     display: flex;
     position: sticky;
@@ -177,6 +178,7 @@
 .doc-actions-mobile {
   display: flex;
   margin: 30px 0 0 -8px;
+  
   @include breakpoint(desktop) {
     display: none;
   }
