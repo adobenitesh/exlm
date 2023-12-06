@@ -43,7 +43,7 @@ const sendNotice = (noticelabel) => {
 
     setTimeout(() => {
       isExlNotice.remove();
-    }, 3000);
+    }, 30000);
   }
 };
 
@@ -74,27 +74,33 @@ export function decorateBookmark(block) {
       const bookmarkAuthedToolTipLabel = bookmarkAuthed.querySelector('.exl-tooltip-label');
       const bookmarkAuthedToolTipIcon = bookmarkAuthed.querySelector('.icon.bookmark-icon');
       if (id.length === 0) {
+        // eslint-disable-next-line
         console.log('Hooking bookmark failed. No id present.');
       } else {
         loadJWT().then(async () => {
-          profile().then( async (data) => {
-            if(data.bookmarks.includes(id)){
+          profile().then(async (data) => {
+            if (data.bookmarks.includes(id)) {
               bookmarkAuthedToolTipIcon.classList.add('authed');
               bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_REMOVE;
             }
           });
-          
+
           bookmarkAuthed.addEventListener('click', async () => {
             if (bookmarkAuthedToolTipIcon.classList.contains('authed')) {
-              await updateProfile('bookmarks', id);
-              bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_SET;
-              bookmarkAuthedToolTipIcon.classList.remove('authed');
-              sendNotice(CONFIG.BOOKMARK_UNSET);
+              setTimeout(() => {
+                updateProfile('bookmarks', id);
+                bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_SET;
+                bookmarkAuthedToolTipIcon.classList.remove('authed');
+                sendNotice(CONFIG.BOOKMARK_UNSET);
+              }, 30000);
+              
             } else {
-              await updateProfile('bookmarks', id);
-              bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_REMOVE;
-              bookmarkAuthedToolTipIcon.classList.add('authed');
-              sendNotice(CONFIG.BOOKMARK_SET);
+              setTimeout(() => {
+                updateProfile('bookmarks', id);
+                bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_REMOVE;
+                bookmarkAuthedToolTipIcon.classList.add('authed');
+                sendNotice(CONFIG.BOOKMARK_SET);
+              }, 30000);
             }
           });
         });
