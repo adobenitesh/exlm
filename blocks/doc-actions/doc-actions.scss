@@ -1,3 +1,5 @@
+@import '../../styles/sass/breakpoints'; 
+
 .exl-notice {
   align-items: center;
   background: var(--spectrum-green-900);
@@ -49,12 +51,8 @@
   }
 }
 
-.doc-actions-wrapper {
-  position: sticky;
-  top: 0;
-}
-
-.doc-actions {
+.doc-actions,
+.doc-actions-mobile  {
   align-items: center;
   display: inline-flex;
   font-size: var(--spectrum-font-size-75);
@@ -164,5 +162,22 @@
         visibility: visible;
       }
     }
+  }
+}
+
+.doc-actions-wrapper {
+  display: none;
+  @include breakpoint(desktop) {
+    display: flex;
+    position: sticky;
+    top: 0;
+  }
+}
+
+.doc-actions-mobile {
+  display: flex;
+  margin: 30px 0 0 -8px;
+  @include breakpoint(desktop) {
+    display: none;
   }
 }

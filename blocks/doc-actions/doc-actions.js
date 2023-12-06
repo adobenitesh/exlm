@@ -47,7 +47,31 @@ const sendNotice = (noticelabel) => {
   }
 };
 
+const selects = (selectors, content) => {
+  [...selectors].forEach((sel) => {
+    sel.appendChild(content);
+  })
+};
+
+function hasArticleMetadataCreatedby() {
+  return document.querySelector('.article-metadata-createdby-wrapper');
+}
+
+function decorateBookmarkMobileBlock() {
+  const docActionsMobile = document.createElement("div");
+    docActionsMobile.classList.add('doc-actions-mobile');
+    if(hasArticleMetadataCreatedby()){
+      hasArticleMetadataCreatedby().appendChild(docActionsMobile);
+    }
+}
+
 const isSignedIn = adobeIMS?.isSignedInUser();
+
+const isDocActionsMobile = () =>{
+  if(document.querySelector('.doc-actions-mobile')){
+    return document.querySelector('.doc-actions-mobile');
+  }
+}
 
 export function decorateBookmark(block) {
   const id = ((document.querySelector('meta[name="id"]') || {}).content || '').trim();
@@ -68,45 +92,47 @@ export function decorateBookmark(block) {
   );
 
   if (isSignedIn) {
-    block.appendChild(authBookmark);
-    const bookmarkAuthed = block.querySelector('.bookmark.auth');
-    if (bookmarkAuthed) {
-      const bookmarkAuthedToolTipLabel = bookmarkAuthed.querySelector('.exl-tooltip-label');
-      const bookmarkAuthedToolTipIcon = bookmarkAuthed.querySelector('.icon.bookmark-icon');
-      if (id.length === 0) {
-        console.log('Hooking bookmark failed. No id present.');
-      } else {
-        loadJWT().then(async () => {
-          profile().then( async (data) => {
-            if(data.bookmarks.includes(id)){
-              bookmarkAuthedToolTipIcon.classList.add('authed');
-              bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_REMOVE;
-            }
+    selects([block, isDocActionsMobile()], authBookmark);
+    const bookmarkAuthed = document.querySelectorAll('.bookmark.auth');
+    if (bookmarkAuthed.length > 0) {
+      bookmarkAuthed.forEach((elem) =>{
+        const bookmarkAuthedToolTipLabel = elem.querySelector('.exl-tooltip-label');
+        const bookmarkAuthedToolTipIcon = elem.querySelector('.icon.bookmark-icon');
+        if (id.length === 0) {
+          console.log('Hooking bookmark failed. No id present.');
+        } else {
+          loadJWT().then(async () => {
+            profile().then( async (data) => {
+              if(data.bookmarks.includes(id)){
+                bookmarkAuthedToolTipIcon.classList.add('authed');
+                bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_REMOVE;
+              }
+            });
+            
+            elem.addEventListener('click', async () => {
+              if (bookmarkAuthedToolTipIcon.classList.contains('authed')) {
+                await updateProfile('bookmarks', id);
+                bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_SET;
+                bookmarkAuthedToolTipIcon.classList.remove('authed');
+                sendNotice(CONFIG.BOOKMARK_UNSET);
+                bookmarkAuthed.style.pointerEvents = "none";
+              } else {
+                await updateProfile('bookmarks', id);
+                bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_REMOVE;
+                bookmarkAuthedToolTipIcon.classList.add('authed');
+                sendNotice(CONFIG.BOOKMARK_SET);
+                bookmarkAuthed.style.pointerEvents = "none";
+              }
+              setTimeout(() => {
+                bookmarkAuthed.style.pointerEvents = "auto";
+              }, 3000);
+            });
           });
-          
-          bookmarkAuthed.addEventListener('click', async () => {
-            if (bookmarkAuthedToolTipIcon.classList.contains('authed')) {
-              await updateProfile('bookmarks', id);
-              bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_SET;
-              bookmarkAuthedToolTipIcon.classList.remove('authed');
-              sendNotice(CONFIG.BOOKMARK_UNSET);
-              bookmarkAuthed.style.pointerEvents = "none";
-            } else {
-              await updateProfile('bookmarks', id);
-              bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_REMOVE;
-              bookmarkAuthedToolTipIcon.classList.add('authed');
-              sendNotice(CONFIG.BOOKMARK_SET);
-              bookmarkAuthed.style.pointerEvents = "none";
-            }
-            setTimeout(() => {
-              bookmarkAuthed.style.pointerEvents = "auto";
-            }, 3000);
-          });
-        });
-      }
+        }
+      });
     }
   } else {
-    block.appendChild(unAuthBookmark);
+    selects([block, isDocActionsMobile()], unAuthBookmark);
   }
 }
 
@@ -115,19 +141,22 @@ export function decorateCopyLink(block) {
   copyLinkDivNode.className = 'copy-link';
   copyLinkDivNode.innerHTML = tooltipTemplate('copy-link-url', CONFIG.NOTICE_LABEL, CONFIG.NOTICE_TIPTEXT);
 
-  block.appendChild(copyLinkDivNode);
-  const copyLinkIcon = block.querySelector('.icon.copy-link-url');
-  if (copyLinkIcon) {
-    copyLinkIcon.addEventListener('click', (e) => {
-      e.preventDefault();
-      navigator.clipboard.writeText(window.location.href);
-      sendNotice(CONFIG.NOTICE_SET);
+  selects([block, isDocActionsMobile()], copyLinkDivNode);
+  const copyLinkIcons = document.querySelectorAll('.icon.copy-link-url');
+    copyLinkIcons.forEach((copyLinkIcon) =>{
+      if (copyLinkIcon) {
+        copyLinkIcon.addEventListener('click', (e) => {
+          e.preventDefault();
+          navigator.clipboard.writeText(window.location.href);
+          sendNotice(CONFIG.NOTICE_SET);
+        });
+      }
     });
-  }
 }
 
 export default async function decorateDocActions(block) {
   if (isDocPage) {
+    decorateBookmarkMobileBlock();
     decorateBookmark(block);
     decorateCopyLink(block);
   }
