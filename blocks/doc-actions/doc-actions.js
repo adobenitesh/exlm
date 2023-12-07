@@ -107,16 +107,16 @@ export function decorateBookmark(block) {
                 bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_SET;
                 bookmarkAuthedToolTipIcon.classList.remove('authed');
                 sendNotice(CONFIG.BOOKMARK_UNSET);
-                elem.style.pointerEvents = 'none';
+                bookmarkAuthedToolTipIcon.style.pointerEvents = 'none';
               } else {
                 await updateProfile('bookmarks', id);
                 bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_REMOVE;
                 bookmarkAuthedToolTipIcon.classList.add('authed');
                 sendNotice(CONFIG.BOOKMARK_SET);
-                elem.style.pointerEvents = 'none';
+                bookmarkAuthedToolTipIcon.style.pointerEvents = 'none';
               }
               setTimeout(() => {
-                elem.style.pointerEvents = 'auto';
+                bookmarkAuthedToolTipIcon.style.pointerEvents = 'auto';
               }, 3000);
             });
           });
