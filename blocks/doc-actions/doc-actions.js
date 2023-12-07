@@ -88,12 +88,12 @@ export function decorateBookmark(block) {
     const bookmarkAuthed = document.querySelectorAll('.bookmark.auth');
     if (bookmarkAuthed.length > 0) {
       bookmarkAuthed.forEach((elem) => {
-        const bookmarkAuthedToolTipLabel = elem.querySelector('.exl-tooltip-label');
-        const bookmarkAuthedToolTipIcon = elem.querySelector('.icon.bookmark-icon');
         if (id.length === 0) {
           console.log('Hooking bookmark failed. No id present.');
         } else {
           loadJWT().then(async () => {
+            const bookmarkAuthedToolTipLabel = elem.querySelector('.exl-tooltip-label');
+            const bookmarkAuthedToolTipIcon = elem.querySelector('.icon.bookmark-icon');
             profile().then(async (data) => {
               if (data.bookmarks.includes(id)) {
                 bookmarkAuthedToolTipIcon.classList.add('authed');
@@ -107,17 +107,12 @@ export function decorateBookmark(block) {
                 bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_SET;
                 bookmarkAuthedToolTipIcon.classList.remove('authed');
                 sendNotice(CONFIG.BOOKMARK_UNSET);
-                bookmarkAuthedToolTipIcon.style.pointerEvents = 'none';
               } else {
                 await updateProfile('bookmarks', id);
                 bookmarkAuthedToolTipLabel.innerHTML = CONFIG.BOOKMARK_AUTH_LABEL_REMOVE;
                 bookmarkAuthedToolTipIcon.classList.add('authed');
                 sendNotice(CONFIG.BOOKMARK_SET);
-                bookmarkAuthedToolTipIcon.style.pointerEvents = 'none';
               }
-              setTimeout(() => {
-                bookmarkAuthedToolTipIcon.style.pointerEvents = 'auto';
-              }, 3000);
             });
           });
         }
