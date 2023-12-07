@@ -58,8 +58,8 @@ export async function profileAttributes() {
     const res = await request(profileUrl, {
       credentials: 'include',
       headers: {
-        authorization: await loadJWT(),
-        accept: 'application/json',
+        'authorization': await loadJWT(),
+        'accept': 'application/json',
       },
       method: 'OPTIONS',
     });
@@ -170,8 +170,8 @@ export async function updateProfile(key, val, replace = false) {
     method: 'PATCH',
     credentials: 'include',
     headers: {
-      authorization: await loadJWT(),
-      accept: 'application/json',
+      'authorization': await loadJWT(),
+      'accept': 'application/json',
       'content-type': 'application/json-patch+json',
       'x-csrf-token': await csrf(JWTTokenUrl),
     },
