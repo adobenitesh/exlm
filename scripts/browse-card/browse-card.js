@@ -1,5 +1,6 @@
 import { loadCSS } from '../lib-franklin.js';
 import { createTag, htmlToElement } from '../scripts.js';
+import CONTENT_TYPES from './browse-cards-constants.js';
 
 const generateContributorsMarkup = (contributor) => {
   const { name, thumbnail, level, date } = contributor;
@@ -69,7 +70,11 @@ const buildCardCtaContent = ({ cardFooter, contentType, viewLink, viewLinkText }
   if (contentType === 'tutorial') {
     icon = 'play-outline';
     isLeftPlacement = true;
-  } else if (contentType.includes('event')) {
+  } else if (
+    contentType === CONTENT_TYPES.LIVE_EVENTS.MAPPING_KEY ||
+    contentType === CONTENT_TYPES.EVENT.MAPPING_KEY ||
+    contentType === CONTENT_TYPES.INSTRUCTOR_LED_TRANING.MAPPING_KEY
+  ) {
     icon = 'new-tab';
   }
   const iconMarkup = icon ? `<span class="icon icon-${icon}"></span>` : '';
@@ -82,6 +87,8 @@ const buildCardCtaContent = ({ cardFooter, contentType, viewLink, viewLinkText }
   cardFooter.appendChild(anchorLink);
 };
 
+const stripScriptTags = (input) => input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+
 const buildCardContent = (card, model) => {
   const { description, contentType: type, viewLinkText, viewLink, copyLink, tags, contributor, event = {} } = model;
   const contentType = type.toLowerCase();
@@ -93,14 +100,14 @@ const buildCardContent = (card, model) => {
     const stringContent = description.length > 100 ? `${description.substring(0, 100).trim()}...` : description;
     const descriptionElement = document.createElement('p');
     descriptionElement.classList.add('browse-card-description-text');
-    descriptionElement.textContent = stringContent;
+    descriptionElement.innerHTML = stripScriptTags(stringContent);
     cardContent.appendChild(descriptionElement);
   }
 
   const cardMeta = document.createElement('div');
   cardMeta.classList.add('browse-card-meta-info');
 
-  if (contentType === 'course') {
+  if (contentType === CONTENT_TYPES.COURSE.MAPPING_KEY) {
     buildTagsContent(cardMeta, tags);
   }
   if (isDesktopResolution) {
@@ -110,7 +117,7 @@ const buildCardContent = (card, model) => {
     cardContent.insertBefore(cardMeta, titleEl);
   }
 
-  if (contentType === 'community') {
+  if (contentType === CONTENT_TYPES.COMMUNITY.MAPPING_KEY) {
     const contributorInfo = document.createElement('div');
     contributorInfo.classList.add('browse-card-contributor-info');
     const contributorElement = generateContributorsMarkup(contributor);
@@ -119,7 +126,7 @@ const buildCardContent = (card, model) => {
     cardContent.insertBefore(contributorInfo, cardMeta);
   }
 
-  if (contentType.includes('event') && Object.values(event).length) {
+  if (contentType === CONTENT_TYPES.LIVE_EVENTS.MAPPING_KEY) {
     buildEventContent({ event, cardContent, card });
   }
   const cardOptions = document.createElement('div');
@@ -153,7 +160,7 @@ const setupCopyAction = (wrapper) => {
 
 export default async function buildCard(element, model) {
   loadCSS(`${window.hlx.codeBasePath}/scripts/browse-card/browse-card.css`); // load css dynamically
-  const { thumbnail, product, title, contentType } = model;
+  const { thumbnail, product, title, contentType, badgeTitle } = model;
   const type = contentType?.toLowerCase();
   const card = createTag(
     'div',
@@ -170,7 +177,7 @@ export default async function buildCard(element, model) {
   }
 
   const bannerElement = createTag('p', { class: 'browse-card-banner' });
-  bannerElement.innerText = contentType;
+  bannerElement.innerText = badgeTitle;
   cardFigure.appendChild(bannerElement);
 
   if (product) {
