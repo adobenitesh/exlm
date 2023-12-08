@@ -80,6 +80,18 @@ const brandDecorator = (brandBlock) => {
   return brandBlock;
 };
 
+let adobeIMS = {
+  isSignedInUser: () => false,
+};
+try {
+  const ims = await loadIms();
+  adobeIMS = ims.adobeIMS;
+} catch {
+  // eslint-disable-next-line no-console
+  console.warn('Adobe IMS not available.');
+}
+const isSignedIn = adobeIMS?.isSignedInUser();
+
 /**
  * adds hambuger button to nav wrapper
  * @param {HTMLElement} navWrapper
@@ -295,7 +307,7 @@ const navDecorator = (navBlock) => {
     const recCourses = document.createElement("li");
     recCourses.classList.add("nav-item", "nav-item-leaf")
     recCourses.innerHTML = `<a href="https://experienceleague.adobe.com/#dashboard/learning">Recommended courses<span class="nav-item-subtitle">Your expertly curated courses</span></a></li>`;
-    document.querySelectorAll(".nav-item-toggle").forEach(function(el){
+    document.querySelectorAll(".nav-item-toggle").forEach((el) =>{
         const elContent = el.innerHTML.toLowerCase();
         if(elContent === "content types"){
           el.nextSibling.querySelector("ul").prepend(recCourses);
@@ -432,18 +444,6 @@ const languageDecorator = async (languageBlock) => {
  * Decorates the sign-in block
  * @param {HTMLElement} signInBlock
  */
-
-let adobeIMS = {
-  isSignedInUser: () => false,
-};
-try {
-  const ims = await loadIms();
-  adobeIMS = ims.adobeIMS;
-} catch {
-  // eslint-disable-next-line no-console
-  console.warn('Adobe IMS not available.');
-}
-const isSignedIn = adobeIMS?.isSignedInUser();
 
 const signInDecorator = async (signInBlock) => {
   simplifySingleCellBlock(signInBlock);

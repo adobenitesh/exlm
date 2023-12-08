@@ -25,8 +25,8 @@
   --nav-item-expanded-bg: #fafafa;
   --nav-item-text-color: #2c2c2c;
   --nav-font: var(--body-font-family);
-  --color-white: #ffffff;
-  --color-black: #000000;
+  --color-white: #fff;
+  --color-black: #000;
 
   @include breakpoint(custom) {
     --nav-item-padding-x: 24px;
@@ -262,13 +262,15 @@ header {
       background-color: initial;
     }
   }
-
+  
   .nav-item-root {
+  /* stylelint-disable-next-line */
     > a {
       border-top: 1px solid var(--spectrum-gray-200);
       border-bottom: 1px solid var(--spectrum-gray-200);
     }
 
+    /* stylelint-disable-next-line */
     a {
       color: var(--nav-item-text-color);
 
@@ -327,6 +329,7 @@ header {
       }
     }
 
+    /* stylelint-disable-next-line */
     a {
       color: var(--nav-item-text-color);
       display: block;
@@ -976,9 +979,11 @@ header {
   .profile-menu,
   .product-dropdown,
   .product-dropdown a span {
+    /* stylelint-disable-next-line */
     display: none;
   }
 
+  /* stylelint-disable-next-line */
   .product-dropdown a {
     color: var(--non-spectrum-grey);
     font-size: var(--spectrum-font-size-100);
@@ -1009,13 +1014,14 @@ header {
 
   .product-toggle{
     display: none;
+    
     @include breakpoint(desktop) {
       display: block;
     }
   }
 
   .product-toggle .icon-grid{
-    background: url(../../icons/apps_gray.svg) no-repeat center center;
+    background: url("../../icons/apps_gray.svg") no-repeat center center;
     background-size: 18px;
     color: var(--spectrum-gray-800);
     cursor: pointer;

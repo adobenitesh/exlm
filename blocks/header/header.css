@@ -21,8 +21,8 @@
   --nav-item-expanded-bg: #fafafa;
   --nav-item-text-color: #2c2c2c;
   --nav-font: var(--body-font-family);
-  --color-white: #ffffff;
-  --color-black: #000000;
+  --color-white: #fff;
+  --color-black: #000;
 }
 @media (min-width: 1024px) {
   :root {
@@ -59,6 +59,7 @@ header {
   background-color: var(--color-white);
   container-name: headersection;
   container-type: inline-size;
+  /* stylelint-disable-next-line */
 }
 @media (min-width: 1024px) {
   .header {
@@ -247,6 +248,10 @@ header {
     background-color: initial;
   }
 }
+.header .nav-item-root {
+  /* stylelint-disable-next-line */
+  /* stylelint-disable-next-line */
+}
 .header .nav-item-root > a {
   border-top: 1px solid var(--spectrum-gray-200);
   border-bottom: 1px solid var(--spectrum-gray-200);
@@ -271,6 +276,7 @@ header {
   position: relative;
   padding: 0;
   margin: 0;
+  /* stylelint-disable-next-line */
 }
 .header .nav-item .icon {
   display: inline-block;
@@ -917,6 +923,7 @@ header {
 .header .profile-menu,
 .header .product-dropdown,
 .header .product-dropdown a span {
+  /* stylelint-disable-next-line */
   display: none;
 }
 .header .product-dropdown a {
@@ -956,7 +963,7 @@ header {
   }
 }
 .header .product-toggle .icon-grid {
-  background: url(../../icons/apps_gray.svg) no-repeat center center;
+  background: url("../../icons/apps_gray.svg") no-repeat center center;
   background-size: 18px;
   color: var(--spectrum-gray-800);
   cursor: pointer;
