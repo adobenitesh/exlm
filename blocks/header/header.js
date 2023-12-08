@@ -249,7 +249,7 @@ const buildNavItems = (ul, level = 0) => {
           </div>`,
         );
     document.querySelector("nav").appendChild(productGridBlock);
-    const gridToggler = signInBlock.querySelector('.product-toggle');
+    const gridToggler = document.querySelector('.product-toggle');
     const toggleExpandGridContent = () => {
       const isExpanded = gridToggler.getAttribute('aria-expanded') === 'true';
       gridToggler.setAttribute('aria-expanded', !isExpanded);
