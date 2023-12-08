@@ -145,6 +145,36 @@ header {
     padding: var(--nav-root-item-padding-x);
   }
 }
+.header .product-grid.signed-in {
+  grid-area: product-grid;
+  display: var(--sign-in-display);
+  order: var(--sign-in-order);
+  align-items: center;
+}
+.header .product-grid.signed-in a {
+  color: var(--nav-item-text-color);
+  background: var(--spectrum-blue-900);
+  border-radius: 16px;
+  color: var(--spectrum-gray-50);
+  font-size: var(--spectrum-font-size-100);
+  font-weight: var(--font-weight-600);
+  padding: 5px 16px;
+  white-space: nowrap;
+  line-height: unset;
+}
+@media (min-width: 1024px) {
+  .header .product-grid.signed-in a {
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    text-align: left;
+    background: none;
+    font-weight: initial;
+    color: var(--nav-item-text-color);
+    padding: var(--nav-root-item-padding-x);
+  }
+}
 .header .nav {
   grid-area: nav;
   order: var(--nav-order);
