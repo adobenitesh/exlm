@@ -964,7 +964,8 @@ header {
     }
   }
 
-  .profile-toggle {
+  .profile-toggle,
+  .product-toggle {
     @include button-reset;
 
     height: 100%;
@@ -972,11 +973,13 @@ header {
     box-sizing: border-box;
   }
 
-  .profile-menu {
+  .profile-menu,
+  .product-dropdown {
     display: none;
   }
 
-  .profile-menu.profile-menu-expanded {
+  .profile-menu.profile-menu-expanded,
+  .product-dropdown.product-dropdown-expanded {
     display: flex;
     flex-direction: column;
     position: absolute;
