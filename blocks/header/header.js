@@ -239,15 +239,13 @@ const buildNavItems = (ul, level = 0) => {
   if (isSignedIn) {
     const productGridBlock = document.createElement("div");
       productGridBlock.classList.add("product-grid", "signed-in");
-      productGridBlock.innerHTML = htmlToElement(
-          `<button class="product-toggle" aria-controls="product-dropdown" aria-expanded="false">
-            <span class="icon icon-grid"></span>
-          </button>
-          <div class="product-dropdown">
-              <a href="//experience.adobe.com/" target="_blank" title="Adobe Experience Cloud">Adobe Experience Cloud</a>
-              <a href="//documentcloud.adobe.com/link/home/" target="_blank" title="Adobe Document Cloud">Adobe Document Cloud</a>
-          </div>`,
-        );
+      productGridBlock.innerHTML = `<button class="product-toggle" aria-controls="product-dropdown" aria-expanded="false">
+                                    <span class="icon icon-grid"></span>
+                                  </button>
+                                  <div class="product-dropdown">
+                                      <a href="//experience.adobe.com/" target="_blank" title="Adobe Experience Cloud">Adobe Experience Cloud</a>
+                                      <a href="//documentcloud.adobe.com/link/home/" target="_blank" title="Adobe Document Cloud">Adobe Document Cloud</a>
+                                  </div>`;
     document.querySelector("nav").appendChild(productGridBlock);
     const gridToggler = document.querySelector('.product-toggle');
     const toggleExpandGridContent = () => {
