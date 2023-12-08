@@ -67,7 +67,7 @@ header {
 }
 .header > nav {
   display: grid;
-  grid-template-areas: "nav brand sign-in";
+  grid-template-areas: "nav brand product-grid sign-in";
   justify-content: space-between;
   height: 100%;
 }
