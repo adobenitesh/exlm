@@ -234,6 +234,18 @@ const buildNavItems = (ul, level = 0) => {
       }
     }
   });
+
+  if(isSignedIn){
+    // Authenticated home
+    const recCourses = document.createElement("li");
+    recCourses.classList.add("nav-item", "nav-item-leaf")
+    recCourses.innerHTML = `<a href="https://experienceleague.adobe.com/#dashboard/learning">Recommended courses<span class="nav-item-subtitle">Your expertly curated courses</span></a></li>`;
+    document.querySelectorAll(".nav-item-toggle").forEach(function(el){
+        if(el.innerHTML === "Content Types"){
+          el.nextSibling.querySelector("ul").prepend(recCourses);
+        }
+    });
+  }
 };
 
 /**
@@ -382,20 +394,21 @@ const languageDecorator = async (languageBlock) => {
  * Decorates the sign-in block
  * @param {HTMLElement} signInBlock
  */
+
+let adobeIMS = {
+  isSignedInUser: () => false,
+};
+try {
+  const ims = await loadIms();
+  adobeIMS = ims.adobeIMS;
+} catch {
+  // eslint-disable-next-line no-console
+  console.warn('Adobe IMS not available.');
+}
+const isSignedIn = adobeIMS?.isSignedInUser();
+
 const signInDecorator = async (signInBlock) => {
   simplifySingleCellBlock(signInBlock);
-
-  let adobeIMS = {
-    isSignedInUser: () => false,
-  };
-  try {
-    const ims = await loadIms();
-    adobeIMS = ims.adobeIMS;
-  } catch {
-    // eslint-disable-next-line no-console
-    console.warn('Adobe IMS not available.');
-  }
-  const isSignedIn = adobeIMS?.isSignedInUser();
   if (isSignedIn) {
     signInBlock.classList.add('signed-in');
     signInBlock.replaceChildren(
@@ -444,14 +457,6 @@ const signInDecorator = async (signInBlock) => {
 
     // Authenticated home
     document.querySelector(".sign-up").style.display = "none";
-    const recCourses = document.createElement("li");
-    recCourses.classList.add("nav-item", "nav-item-leaf")
-    recCourses.innerHTML = `<a href="https://experienceleague.adobe.com/#dashboard/learning">Recommended courses<span class="nav-item-subtitle">Your expertly curated courses</span></a></li>`;
-    document.querySelectorAll(".nav-item-toggle").forEach(function(el){
-        if(el.innerHTML === "Content Types"){
-          el.nextSibling.querySelector("ul").prepend(recCourses);
-        }
-    });
 
   } else {
     signInBlock.classList.remove('signed-in');
