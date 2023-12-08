@@ -109,8 +109,8 @@ header {
     @include breakpoint(custom) {
       width: 100%;
       justify-content: initial;
-      grid-template-areas: 'adobe-logo brand nav sign-up search language sign-in';
-      grid-template-columns: min-content min-content max-content min-content auto max-content max-content;
+      grid-template-areas: 'adobe-logo brand nav sign-up search language product-grid sign-in';
+      grid-template-columns: min-content min-content max-content min-content auto max-content max-content max-content;
     }
   }
 

@@ -470,6 +470,56 @@ const signInDecorator = async (signInBlock) => {
 };
 
 /**
+ * Decorates the product-grid block
+ * @param {HTMLElement} productGridBlock
+ */
+
+const productGridDecorator = async (productGridBlock) => {
+  simplifySingleCellBlock(productGrid);
+  if (isSignedIn) {
+    productGrid.classList.add('signed-in');
+    productGridBlock.replaceChildren(
+      htmlToElement(
+        `<div class="exl-product-grid">
+          <button class="product-toggle" aria-controls="product-menu" aria-expanded="false">
+          <span class="icon icon-grid"></span>
+        </button>
+        <div class="exl-product-dropdown">
+            <a href="//experience.adobe.com/" target="_blank" title="Adobe Experience Cloud">Adobe Experience Cloud</a>
+            <a href="//documentcloud.adobe.com/link/home/" target="_blank" title="Adobe Document Cloud">Adobe Document Cloud</a>
+        </div>
+        </div>`,
+      ),
+    );
+
+    const gridToggler = signInBlock.querySelector('.product-toggle');
+    const toggleExpandGridContent = () => {
+      const isExpanded = gridToggler.getAttribute('aria-expanded') === 'true';
+      gridToggler.setAttribute('aria-expanded', !isExpanded);
+      const productGridMenu = gridToggler.nextElementSibling;
+      const expandedClass = 'profile-menu-expanded';
+      if (!isExpanded) {
+        productGridMenu.classList.add(expandedClass);
+      } else {
+        productGridMenu.classList.remove(expandedClass);
+      }
+    };
+
+    registerResizeHandler(() => {
+      if (isMobile()) {
+        // if mobile, hide product grid block
+        gridToggler.style.display = "none";
+      } else {
+        // if desktop, add mouseenter/mouseleave, remove click event
+        toggler.parentElement.addEventListener('mouseenter', toggleExpandGridContent);
+        toggler.parentElement.addEventListener('mouseleave', toggleExpandGridContent);
+      }
+    });
+  }
+  return productGridBlock;
+};
+
+/**
  * Decorates the adobe-logo block
  * @param {HTMLElement} adobeLogoBlock
  */
@@ -528,6 +578,7 @@ export default async function decorate(headerBlock) {
     { className: 'search', decorator: searchDecorator },
     { className: 'sign-up', decorator: signUpDecorator },
     { className: 'language-selector', decorator: languageDecorator },
+    { className: 'product-grid', decorator: productGridDecorator },
     { className: 'sign-in', decorator: signInDecorator },
     { className: 'adobe-logo', decorator: adobeLogoDecorator },
     { className: 'nav', decorator: navDecorator },
