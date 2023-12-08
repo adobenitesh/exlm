@@ -234,9 +234,28 @@ const buildNavItems = (ul, level = 0) => {
       }
     }
   });
+};
 
-  // Product Grid - Authenticated
-  if (isSignedIn) {
+/**
+ * Decorates the nav block
+ * @param {HTMLElement} navBlock
+ */
+const navDecorator = (navBlock) => {
+  simplifySingleCellBlock(navBlock);
+  const navWrapper = htmlToElement('<div class="nav-wrapper"></div>');
+  const hamburger = hamburgerButton(navWrapper);
+  navWrapper.replaceChildren(hamburger, ...navBlock.children);
+  navBlock.replaceChildren(navWrapper);
+
+  // build navItems
+  const ul = navWrapper.querySelector(':scope > ul');
+  buildNavItems(ul);
+
+  navBlock.firstChild.id = hamburger.getAttribute('aria-controls');
+  navBlock.prepend(hamburger);
+
+  if(isSignedIn){
+    // Product Grid - Authenticated
     const productGridBlock = document.createElement("div");
       productGridBlock.classList.add("product-grid", "signed-in");
       productGridBlock.innerHTML = `<button class="product-toggle" aria-controls="product-dropdown" aria-expanded="false">
@@ -246,7 +265,8 @@ const buildNavItems = (ul, level = 0) => {
                                       <a href="//experience.adobe.com/" target="_blank" title="Adobe Experience Cloud">Adobe Experience Cloud</a>
                                       <a href="//documentcloud.adobe.com/link/home/" target="_blank" title="Adobe Document Cloud">Adobe Document Cloud</a>
                                   </div>`;
-    document.querySelector("nav").appendChild(productGridBlock);
+    document.querySelector("nav").insertBefore(productGridBlock, document.querySelector("nav").lastChild);
+
     const gridToggler = document.querySelector('.product-toggle');
     const toggleExpandGridContent = () => {
       const isExpanded = gridToggler.getAttribute('aria-expanded') === 'true';
@@ -270,29 +290,8 @@ const buildNavItems = (ul, level = 0) => {
         gridToggler.parentElement.addEventListener('mouseleave', toggleExpandGridContent);
       }
     });
-  }
-};
 
-/**
- * Decorates the nav block
- * @param {HTMLElement} navBlock
- */
-const navDecorator = (navBlock) => {
-  simplifySingleCellBlock(navBlock);
-  const navWrapper = htmlToElement('<div class="nav-wrapper"></div>');
-  const hamburger = hamburgerButton(navWrapper);
-  navWrapper.replaceChildren(hamburger, ...navBlock.children);
-  navBlock.replaceChildren(navWrapper);
-
-  // build navItems
-  const ul = navWrapper.querySelector(':scope > ul');
-  buildNavItems(ul);
-
-  navBlock.firstChild.id = hamburger.getAttribute('aria-controls');
-  navBlock.prepend(hamburger);
-
-  if(isSignedIn){
-    // Authenticated home
+    // New Link under Learn Menu - Authenticated
     const recCourses = document.createElement("li");
     recCourses.classList.add("nav-item", "nav-item-leaf")
     recCourses.innerHTML = `<a href="https://experienceleague.adobe.com/#dashboard/learning">Recommended courses<span class="nav-item-subtitle">Your expertly curated courses</span></a></li>`;
