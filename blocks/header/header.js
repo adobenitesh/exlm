@@ -415,16 +415,7 @@ const signInDecorator = async (signInBlock) => {
     signInBlock.classList.add('signed-in');
     signInBlock.replaceChildren(
       htmlToElement(
-        `<div class="exl-product-grid signed-in">
-          <button class="product-toggle" aria-controls="product-menu" aria-expanded="false">
-            <span class="icon icon-grid"></span>
-          </button>
-          <div class="exl-product-dropdown">
-              <a href="//experience.adobe.com/" target="_blank" title="Adobe Experience Cloud">Adobe Experience Cloud</a>
-              <a href="//documentcloud.adobe.com/link/home/" target="_blank" title="Adobe Document Cloud">Adobe Document Cloud</a>
-          </div>
-        </div>
-        <div class="profile">
+        `<div class="profile">
           <button class="profile-toggle" aria-controls="profile-menu">
             <span class="icon icon-profile"></span>
           </button>
@@ -438,11 +429,9 @@ const signInDecorator = async (signInBlock) => {
       ),
     );
     const toggler = signInBlock.querySelector('.profile-toggle');
-    if(signInBlock.querySelector('[data-id="sign-out"]')){
-      signInBlock.querySelector('[data-id="sign-out"]').addEventListener('click', async () => {
-        signOut();
-      });
-    }
+    signInBlock.querySelector('[data-id="sign-out"]').addEventListener('click', async () => {
+      signOut();
+    });
     const toggleExpandContent = () => {
       const isExpanded = toggler.getAttribute('aria-expanded') === 'true';
       toggler.setAttribute('aria-expanded', !isExpanded);
