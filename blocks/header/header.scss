@@ -999,6 +999,18 @@ header {
     }
   }
 
+  .product-toggle .icon-grid{
+    background: url(../../icons/apps_gray.svg) no-repeat center 3px;
+    background-size: 20px 20px;
+    color: var(--spectrum-gray-800);
+    cursor: pointer;
+    height: 20px;
+    padding: 5px 2px 5px 5px;
+    transition: all 200ms ease-in-out;
+    vertical-align: middle;
+    width: 20px;
+  }
+
   .search-picker-popover .search-picker-label,
   .search-suggestions-popover .search-picker-label {
     margin: 0;
