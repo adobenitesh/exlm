@@ -122,7 +122,11 @@ export function decorateBookmark(block) {
 export function decorateCopyLink(block) {
   const copyLinkDivNode = document.createElement('div');
   copyLinkDivNode.className = 'copy-link';
-  copyLinkDivNode.innerHTML = tooltipTemplate('copy-link-url', `${placeholders.toastLabel}`, `${placeholders.toastTiptext}`);
+  copyLinkDivNode.innerHTML = tooltipTemplate(
+    'copy-link-url',
+    `${placeholders.toastLabel}`,
+    `${placeholders.toastTiptext}`,
+  );
 
   block.appendChild(copyLinkDivNode);
   if (document.querySelector('.doc-actions-mobile')) {
