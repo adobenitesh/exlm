@@ -475,10 +475,10 @@ const signInDecorator = async (signInBlock) => {
  */
 
 const productGridDecorator = async (productGridBlock) => {
-  simplifySingleCellBlock(productGrid);
+  simplifySingleCellBlock(productGridBlock);
   if (isSignedIn) {
-    productGrid.classList.add('signed-in');
-    productGridBlock.replaceChildren(
+    productGridBlock.classList.add('signed-in');
+    productGridBlock.innerHTML = 
       htmlToElement(
         `<div class="exl-product-grid">
           <button class="product-toggle" aria-controls="product-menu" aria-expanded="false">
@@ -489,9 +489,8 @@ const productGridDecorator = async (productGridBlock) => {
             <a href="//documentcloud.adobe.com/link/home/" target="_blank" title="Adobe Document Cloud">Adobe Document Cloud</a>
         </div>
         </div>`,
-      ),
-    );
-
+      );
+    document.querySelector("nav").appendChild(productGridBlock);
     const gridToggler = signInBlock.querySelector('.product-toggle');
     const toggleExpandGridContent = () => {
       const isExpanded = gridToggler.getAttribute('aria-expanded') === 'true';
