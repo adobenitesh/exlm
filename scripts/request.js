@@ -44,7 +44,7 @@ export function hash(arg = '') {
 const requests = new Map();
 
 export async function request(url, options = { method: 'GET', headers: {}, body: '', params: {} }) {
-  const key = `${options.method || 'GET'}_${hash(url)}_${hash(options.headers['authorization'] || 'anon')}_${hash(
+  const key = `${options.method || 'GET'}_${hash(url)}_${hash(options.headers.authorization || 'anon')}_${hash(
     JSON.stringify(options.body || ''),
   )}`;
 

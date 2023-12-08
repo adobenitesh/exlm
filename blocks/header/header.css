@@ -888,7 +888,7 @@ header {
   display: flex;
   flex-direction: column;
   position: absolute;
-  align-items: flex-end;
+  align-items: flex-start;
   right: 0;
   width: 100%;
   box-sizing: border-box;
