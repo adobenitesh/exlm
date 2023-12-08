@@ -234,17 +234,6 @@ const buildNavItems = (ul, level = 0) => {
       }
     }
   });
-
-  if(isSignedInUser){
-    const recCourses = document.createElement("li");
-    recCourses.classList.add("nav-item", "nav-item-leaf")
-    recCourses.innerHTML = `<a href="https://experienceleague.adobe.com/#dashboard/learning">Recommended courses<span class="nav-item-subtitle">Your expertly curated courses</span></a></li>`;
-    document.querySelectorAll(".nav-item-toggle").forEach(function(el){
-        if(el.innerHTML === "Content Types"){
-          el.nextSibling.querySelector("ul").prepend(recCourses);
-        }
-    });
-  }
 };
 
 /**
@@ -408,7 +397,6 @@ const signInDecorator = async (signInBlock) => {
   }
   const isSignedIn = adobeIMS?.isSignedInUser();
   if (isSignedIn) {
-    document.querySelector(".sign-up").style.display = "none";
     signInBlock.classList.add('signed-in');
     signInBlock.replaceChildren(
       htmlToElement(
@@ -453,6 +441,18 @@ const signInDecorator = async (signInBlock) => {
         toggler.parentElement.addEventListener('mouseleave', toggleExpandContent);
       }
     });
+
+    // Authenticated home
+    document.querySelector(".sign-up").style.display = "none";
+    const recCourses = document.createElement("li");
+    recCourses.classList.add("nav-item", "nav-item-leaf")
+    recCourses.innerHTML = `<a href="https://experienceleague.adobe.com/#dashboard/learning">Recommended courses<span class="nav-item-subtitle">Your expertly curated courses</span></a></li>`;
+    document.querySelectorAll(".nav-item-toggle").forEach(function(el){
+        if(el.innerHTML === "Content Types"){
+          el.nextSibling.querySelector("ul").prepend(recCourses);
+        }
+    });
+
   } else {
     signInBlock.classList.remove('signed-in');
     signInBlock.firstChild.addEventListener('click', async () => {
