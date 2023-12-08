@@ -25,6 +25,8 @@
   --nav-item-expanded-bg: #fafafa;
   --nav-item-text-color: #2c2c2c;
   --nav-font: var(--body-font-family);
+  --color-white: #ffffff;
+  --color-black: #000000;
 
   @include breakpoint(custom) {
     --nav-item-padding-x: 24px;
@@ -90,7 +92,7 @@ header {
   height: 100%;
   position: relative;
   max-width: 1440px;
-  background-color: #fff;
+  background-color: var(--color-white);
   container-name: headersection;
   container-type: inline-size;
 
@@ -181,7 +183,7 @@ header {
     display: none;
     padding: 0;
     box-shadow: 0 8px 16px rgb(10 10 10 / 10%);
-    background-color: #fff;
+    background-color: var(--color-white);
     width: 100%;
 
     @include breakpoint(tablet) {
@@ -932,7 +934,7 @@ header {
       a {
         @include button-reset;
 
-        color: black;
+        color: var(--color-black);
       }
 
       @include breakpoint(custom) {
@@ -957,15 +959,15 @@ header {
     display: flex;
     flex-direction: column;
     position: absolute;
+    gap: 8px;
     align-items: flex-start;
     right: 0;
     width: 100%;
     box-sizing: border-box;
     top: 100%;
-    background-color: white;
-    color: redl;
+    background-color: var(--color-white);
     z-index: 20000;
-    padding: 2em;
+    padding: 1.5em;
     box-shadow: 0 8px 16px rgb(10 10 10 / 10%);
 
     @include breakpoint(custom) {

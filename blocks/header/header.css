@@ -21,6 +21,8 @@
   --nav-item-expanded-bg: #fafafa;
   --nav-item-text-color: #2c2c2c;
   --nav-font: var(--body-font-family);
+  --color-white: #ffffff;
+  --color-black: #000000;
 }
 @media (min-width: 1024px) {
   :root {
@@ -54,7 +56,7 @@ header {
   height: 100%;
   position: relative;
   max-width: 1440px;
-  background-color: #fff;
+  background-color: var(--color-white);
   container-name: headersection;
   container-type: inline-size;
 }
@@ -156,7 +158,7 @@ header {
   display: none;
   padding: 0;
   box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
-  background-color: #fff;
+  background-color: var(--color-white);
   width: 100%;
 }
 @media (min-width: 600px) {
@@ -862,7 +864,7 @@ header {
   text-align: left;
   background: none;
   font-weight: initial;
-  color: black;
+  color: var(--color-black);
 }
 @media (min-width: 1024px) {
   .header .signed-in .profile {
@@ -888,15 +890,15 @@ header {
   display: flex;
   flex-direction: column;
   position: absolute;
+  gap: 5px;
   align-items: flex-start;
   right: 0;
   width: 100%;
   box-sizing: border-box;
   top: 100%;
-  background-color: white;
-  color: redl;
+  background-color: var(--color-white);
   z-index: 20000;
-  padding: 2em;
+  padding: 1.5em;
   box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
 }
 @media (min-width: 1024px) {
