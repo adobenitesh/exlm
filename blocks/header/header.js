@@ -234,19 +234,6 @@ const buildNavItems = (ul, level = 0) => {
       }
     }
   });
-
-  if(isSignedIn){
-    // Authenticated home
-    const recCourses = document.createElement("li");
-    recCourses.classList.add("nav-item", "nav-item-leaf")
-    recCourses.innerHTML = `<a href="https://experienceleague.adobe.com/#dashboard/learning">Recommended courses<span class="nav-item-subtitle">Your expertly curated courses</span></a></li>`;
-    document.querySelectorAll(".nav-item-toggle").forEach(function(el){
-        const elContent = el.innerHTML.toLowerCase();
-        if(elContent === "content types"){
-          el.nextSibling.querySelector("ul").prepend(recCourses);
-        }
-    });
-  }
 };
 
 /**
@@ -266,6 +253,20 @@ const navDecorator = (navBlock) => {
 
   navBlock.firstChild.id = hamburger.getAttribute('aria-controls');
   navBlock.prepend(hamburger);
+
+  if(isSignedIn){
+    // Authenticated home
+    const recCourses = document.createElement("li");
+    recCourses.classList.add("nav-item", "nav-item-leaf")
+    recCourses.innerHTML = `<a href="https://experienceleague.adobe.com/#dashboard/learning">Recommended courses<span class="nav-item-subtitle">Your expertly curated courses</span></a></li>`;
+    document.querySelectorAll(".nav-item-toggle").forEach(function(el){
+        const elContent = el.innerHTML.toLowerCase();
+        if(elContent === "content types"){
+          el.nextSibling.querySelector("ul").prepend(recCourses);
+        }
+    });
+  }
+
 };
 
 /**
