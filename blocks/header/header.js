@@ -241,8 +241,8 @@ const buildNavItems = (ul, level = 0) => {
     recCourses.classList.add("nav-item", "nav-item-leaf")
     recCourses.innerHTML = `<a href="https://experienceleague.adobe.com/#dashboard/learning">Recommended courses<span class="nav-item-subtitle">Your expertly curated courses</span></a></li>`;
     document.querySelectorAll(".nav-item-toggle").forEach(function(el){
-        const elLowerCase = el.toLowerCase();
-        if(elLowerCase.innerHTML === "content types"){
+        const elLowerCase = el.innerHTML.toLowerCase();
+        if(elLowerCase === "content types"){
           el.nextSibling.querySelector("ul").prepend(recCourses);
         }
     });
