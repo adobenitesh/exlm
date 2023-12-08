@@ -243,7 +243,7 @@ const buildNavItems = (ul, level = 0) => {
     document.querySelectorAll(".nav-item-toggle").forEach(function(el){
         const elContent = el.innerHTML.toLowerCase();
         if(elContent === "content types"){
-          elContent.nextSibling.querySelector("ul").prepend(recCourses);
+          el.nextSibling.querySelector("ul").prepend(recCourses);
         }
     });
   }
