@@ -974,8 +974,16 @@ header {
   }
 
   .profile-menu,
-  .product-dropdown {
+  .product-dropdown,
+  .product-dropdown a span {
     display: none;
+  }
+
+  .product-dropdown a {
+    color: var(--non-spectrum-grey);
+    font-size: var(--spectrum-font-size-100);
+    font-weight: var(--font-weight-400);
+    line-height: 21px;
   }
 
   .profile-menu.profile-menu-expanded,
@@ -999,16 +1007,22 @@ header {
     }
   }
 
+  .product-toggle{
+    display: none;
+    @include breakpoint(desktop) {
+      display: block;
+    }
+  }
+
   .product-toggle .icon-grid{
-    background: url(../../icons/apps_gray.svg) no-repeat center 3px;
-    background-size: 20px 20px;
+    background: url(../../icons/apps_gray.svg) no-repeat center center;
+    background-size: 18px;
     color: var(--spectrum-gray-800);
     cursor: pointer;
-    height: 20px;
-    padding: 5px 2px 5px 5px;
-    transition: all 200ms ease-in-out;
+    display: inline-block;
+    height: 18px;
     vertical-align: middle;
-    width: 20px;
+    width: 18px;
   }
 
   .search-picker-popover .search-picker-label,

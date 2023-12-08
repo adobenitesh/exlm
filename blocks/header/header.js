@@ -259,7 +259,7 @@ const navDecorator = (navBlock) => {
     const productGridBlock = document.createElement("div");
       productGridBlock.classList.add("product-grid", "signed-in");
       productGridBlock.innerHTML = `<button class="product-toggle" aria-controls="product-dropdown" aria-expanded="false">
-                                    <span class="icon icon-grid"></span>
+                                    <span class="icon-grid"></span>
                                   </button>
                                   <div class="product-dropdown">
                                       <a href="//experience.adobe.com/" target="_blank" title="Adobe Experience Cloud">Adobe Experience Cloud</a>
