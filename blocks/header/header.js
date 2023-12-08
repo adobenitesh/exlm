@@ -493,7 +493,7 @@ const signInDecorator = async (signInBlock) => {
       }
     });
 
-    // Authenticated home
+    // Hide Signup - Authenticated
     document.querySelector(".sign-up").style.display = "none";
 
   } else {
