@@ -432,15 +432,17 @@ const signInDecorator = async (signInBlock) => {
             <a href="#dashboard/profile">Profile</a>
             <a href="#dashboard/awards">Achievements</a>
             <a href="#dashboard/bookmarks">Bookmarks</a>
-            <a class="sign-out">Sign Out</a>
+            <a data-id="sign-out">Sign Out</a>
           </div>
         </div>`,
       ),
     );
     const toggler = signInBlock.querySelector('.profile-toggle');
-    signInBlock.querySelector(".sign-out").addEventListener('click', async () => {
-      signOut();
-    });
+    if(signInBlock.querySelector('[data-id="sign-out"]')){
+      signInBlock.querySelector('[data-id="sign-out"]').addEventListener('click', async () => {
+        signOut();
+      });
+    }
     const toggleExpandContent = () => {
       const isExpanded = toggler.getAttribute('aria-expanded') === 'true';
       toggler.setAttribute('aria-expanded', !isExpanded);
