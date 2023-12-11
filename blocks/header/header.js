@@ -484,7 +484,7 @@ const productGridDecorator = async (productGridBlock) => {
           const anchor = p.querySelector("a");
           anchor.setAttribute("target", "_blank");
           const href = anchor.getAttribute("href").split("#");
-          anchor.setAttribute("href", href);
+          anchor.setAttribute("href", href[0]);
           productDropdown.innerHTML += p.innerHTML;
         });
       } 
