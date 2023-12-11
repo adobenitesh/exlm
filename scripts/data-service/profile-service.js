@@ -8,7 +8,7 @@ import { request } from '../request.js';
 
 export const override = /^(recommended|votes)$/;
 
-const clone = (arg = {}, transferables = []) =>  structuredClone(arg, transferables);
+const clone = (arg = {}, transferables = []) => structuredClone(arg, transferables);
 
 // eslint-disable-next-line
 export let adobeIMS = {
