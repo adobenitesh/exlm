@@ -465,9 +465,20 @@ const productGridDecorator = async (productGridBlock) => {
   simplifySingleCellBlock(productGridBlock);
   if (isSignedIn) {
     productGridBlock.classList.add('signed-in');
-    productGridBlock.prepend(`<button class="product-toggle" aria-controls="product-dropdown">
-                              <span class="icon-grid"></span>
-                            </button> `);
+    const productDropdown = document.createElement("div");
+    productDropdown.classList.add("product-dropdown");
+    const selectedChildrens = productGridBlock.querySelectorAll("p");
+      if(selectedChildrens.length > 0){
+        selectedChildrens.forEach(function(sc){
+          productDropdown.innerHTML += sc.innerHTML;
+        });
+      }
+      
+    const productToggle = document.createElement("button");
+      productToggle.classList.add("product-toggle");
+      productToggle.setAttribute("aria-controls", "product-dropdown");
+      productToggle.innerHTML = `<span class="icon-grid"></span>`;
+      productGridBlock.innerHTML = `${productToggle.outerHTML}${productDropdown.outerHTML}`;
     const gridToggler = document.querySelector('.product-toggle');
     const toggleExpandGridContent = () => {
       const isExpanded = gridToggler.getAttribute('aria-expanded') === 'true';
