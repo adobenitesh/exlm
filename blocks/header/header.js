@@ -266,6 +266,18 @@ const navDecorator = (navBlock) => {
   navBlock.firstChild.id = hamburger.getAttribute('aria-controls');
   navBlock.prepend(hamburger);
 
+  if (isSignedIn) {
+    // New Link under Learn Menu - Authenticated
+    const recCourses = document.createElement('li');
+    recCourses.classList.add('nav-item', 'nav-item-leaf');
+    recCourses.innerHTML = `<a href="https://experienceleague.adobe.com/#dashboard/learning">Recommended courses<span class="nav-item-subtitle">Your expertly curated courses</span></a></li>`;
+    document.querySelectorAll('.nav-item-toggle').forEach((el) => {
+      const elContent = el.innerHTML.toLowerCase();
+      if (elContent === 'content types') {
+        el.nextSibling.querySelector('ul').prepend(recCourses);
+      }
+    });
+  }
 };
 
 /**
@@ -445,8 +457,7 @@ const signInDecorator = async (signInBlock) => {
     });
 
     // Hide Signup - Authenticated
-    document.querySelector(".sign-up").style.display = "none";
-
+    document.querySelector('.sign-up').style.display = 'none';
   } else {
     signInBlock.classList.remove('signed-in');
     signInBlock.firstChild.addEventListener('click', async () => {
@@ -467,13 +478,12 @@ const productGridDecorator = async (productGridBlock) => {
     productGridBlock.classList.add('signed-in');
     const productDropdown = document.createElement("div");
     productDropdown.classList.add("product-dropdown");
-    const selectedChildrens = productGridBlock.querySelectorAll("p");
-      if(selectedChildrens.length > 0){
-        selectedChildrens.forEach(function(sc){
-          productDropdown.innerHTML += sc.innerHTML;
+    const pTags = productGridBlock.querySelectorAll("p");
+      if(pTags.length > 0){
+        pTags.forEach(function(p){
+          productDropdown.innerHTML += p.innerHTML;
         });
-      }
-      
+      } 
     const productToggle = document.createElement("button");
       productToggle.classList.add("product-toggle");
       productToggle.setAttribute("aria-controls", "product-dropdown");
