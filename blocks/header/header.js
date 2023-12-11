@@ -481,7 +481,6 @@ const productGridDecorator = async (productGridBlock) => {
     const pTags = productGridBlock.querySelectorAll("p");
       if(pTags.length > 0){
         pTags.forEach(function(p){
-          p.querySelector("a").setAttribute("target", "_blank");
           productDropdown.innerHTML += p.innerHTML;
         });
       } 
