@@ -481,7 +481,10 @@ const productGridDecorator = async (productGridBlock) => {
     const pTags = productGridBlock.querySelectorAll("p");
       if(pTags.length > 0){
         pTags.forEach(function(p){
-          p.querySelector("a").setAttribute("target", "_blank");
+          const anchor = p.querySelector("a");
+          anchor.setAttribute("target", "_blank");
+          const href = anchor.getAttribute("href").split("#");
+          anchor.setAttribute("href", href);
           productDropdown.innerHTML += p.innerHTML;
         });
       } 
