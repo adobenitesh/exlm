@@ -457,6 +457,51 @@ const signInDecorator = async (signInBlock) => {
 };
 
 /**
+ * Decorates the product-grid block
+ * @param {HTMLElement} productGrid
+ */
+
+const productGridDecorator = async (productGridBlock) => {
+  simplifySingleCellBlock(productGridBlock);
+  if (isSignedIn) {
+    productGridBlock.classList.add('signed-in');
+    productGridBlock.prepend(`<button class="product-toggle" aria-controls="product-dropdown">
+                              <span class="icon-grid"></span>
+                            </button> `);
+    const gridToggler = document.querySelector('.product-toggle');
+    const toggleExpandGridContent = () => {
+      const isExpanded = gridToggler.getAttribute('aria-expanded') === 'true';
+      gridToggler.setAttribute('aria-expanded', !isExpanded);
+      const productGridMenu = gridToggler.nextElementSibling;
+      const expandedClass = 'product-dropdown-expanded';
+      if (!isExpanded) {
+        productGridMenu.classList.add(expandedClass);
+      } else {
+        productGridMenu.classList.remove(expandedClass);
+      }
+    };
+
+    registerResizeHandler(() => {
+      if (isMobile()) {
+        // if mobile, hide product grid block
+        gridToggler.style.display = 'none';
+      } else {
+        // if desktop, add mouseenter/mouseleave, remove click event
+        gridToggler.parentElement.addEventListener('mouseenter', toggleExpandGridContent);
+        gridToggler.parentElement.addEventListener('mouseleave', toggleExpandGridContent);
+      }
+    });
+
+  } else{
+    const isProductGrid = document.querySelector(".product-grid");
+    if(isProductGrid){
+      document.querySelector('nav').removeChild(isProductGrid);
+    }
+  }
+  return productGridBlock;
+};
+
+/**
  * Decorates the adobe-logo block
  * @param {HTMLElement} adobeLogoBlock
  */
@@ -515,6 +560,7 @@ export default async function decorate(headerBlock) {
     { className: 'search', decorator: searchDecorator },
     { className: 'sign-up', decorator: signUpDecorator },
     { className: 'language-selector', decorator: languageDecorator },
+    { className: 'product-grid', decorator:productGridDecorator },
     { className: 'sign-in', decorator: signInDecorator },
     { className: 'adobe-logo', decorator: adobeLogoDecorator },
     { className: 'nav', decorator: navDecorator },
