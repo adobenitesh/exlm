@@ -476,23 +476,23 @@ const productGridDecorator = async (productGridBlock) => {
   simplifySingleCellBlock(productGridBlock);
   if (isSignedIn) {
     productGridBlock.classList.add('signed-in');
-    const productDropdown = document.createElement("div");
-    productDropdown.classList.add("product-dropdown");
-    const pTags = productGridBlock.querySelectorAll("p");
-      if(pTags.length > 0){
-        pTags.forEach(function(p){
-          const anchor = p.querySelector("a");
-          anchor.setAttribute("target", "_blank");
-          const href = anchor.getAttribute("href").split("#");
-          anchor.setAttribute("href", href[0]);
-          productDropdown.innerHTML += p.innerHTML;
-        });
-      } 
-    const productToggle = document.createElement("button");
-      productToggle.classList.add("product-toggle");
-      productToggle.setAttribute("aria-controls", "product-dropdown");
-      productToggle.innerHTML = `<span class="icon-grid"></span>`;
-      productGridBlock.innerHTML = `${productToggle.outerHTML}${productDropdown.outerHTML}`;
+    const productDropdown = document.createElement('div');
+    productDropdown.classList.add('product-dropdown');
+    const pTags = productGridBlock.querySelectorAll('p');
+    if (pTags.length > 0) {
+      pTags.forEach((p) => {
+        const anchor = p.querySelector('a');
+        anchor.setAttribute('target', '_blank');
+        const href = anchor.getAttribute('href').split('#');
+        anchor.setAttribute('href', href[0]);
+        productDropdown.innerHTML += p.innerHTML;
+      });
+    }
+    const productToggle = document.createElement('button');
+    productToggle.classList.add('product-toggle');
+    productToggle.setAttribute('aria-controls', 'product-dropdown');
+    productToggle.innerHTML = `<span class="icon-grid"></span>`;
+    productGridBlock.innerHTML = `${productToggle.outerHTML}${productDropdown.outerHTML}`;
     const gridToggler = document.querySelector('.product-toggle');
     const toggleExpandGridContent = () => {
       const isExpanded = gridToggler.getAttribute('aria-expanded') === 'true';
@@ -516,10 +516,9 @@ const productGridDecorator = async (productGridBlock) => {
         gridToggler.parentElement.addEventListener('mouseleave', toggleExpandGridContent);
       }
     });
-
-  } else{
-    const isProductGrid = document.querySelector(".product-grid");
-    if(isProductGrid){
+  } else {
+    const isProductGrid = document.querySelector('.product-grid');
+    if (isProductGrid) {
       document.querySelector('nav').removeChild(isProductGrid);
     }
   }
@@ -585,7 +584,7 @@ export default async function decorate(headerBlock) {
     { className: 'search', decorator: searchDecorator },
     { className: 'sign-up', decorator: signUpDecorator },
     { className: 'language-selector', decorator: languageDecorator },
-    { className: 'product-grid', decorator:productGridDecorator },
+    { className: 'product-grid', decorator: productGridDecorator },
     { className: 'sign-in', decorator: signInDecorator },
     { className: 'adobe-logo', decorator: adobeLogoDecorator },
     { className: 'nav', decorator: navDecorator },
