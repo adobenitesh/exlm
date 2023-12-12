@@ -176,6 +176,10 @@ header {
     order: var(--sign-in-order);
     align-items: center;
 
+    @include breakpoint(custom) {
+      display: none;
+    }
+
     a {
       color: var(--nav-item-text-color);
 
@@ -262,9 +266,9 @@ header {
       background-color: initial;
     }
   }
-  
+
   .nav-item-root {
-  /* stylelint-disable-next-line */
+    /* stylelint-disable-next-line */
     > a {
       border-top: 1px solid var(--spectrum-gray-200);
       border-bottom: 1px solid var(--spectrum-gray-200);
@@ -1012,16 +1016,16 @@ header {
     }
   }
 
-  .product-toggle{
+  .product-toggle {
     display: none;
-    
+
     @include breakpoint(desktop) {
       display: block;
     }
   }
 
-  .product-toggle .icon-grid{
-    background: url("../../icons/apps_gray.svg") no-repeat center center;
+  .product-toggle .icon-grid {
+    background: url('../../icons/apps_gray.svg') no-repeat center center;
     background-size: 18px;
     color: var(--spectrum-gray-800);
     cursor: pointer;

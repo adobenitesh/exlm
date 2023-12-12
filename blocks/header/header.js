@@ -505,17 +505,8 @@ const productGridDecorator = async (productGridBlock) => {
         productGridMenu.classList.remove(expandedClass);
       }
     };
-
-    registerResizeHandler(() => {
-      if (isMobile()) {
-        // if mobile, hide product grid block
-        gridToggler.style.display = 'none';
-      } else {
-        // if desktop, add mouseenter/mouseleave, remove click event
-        gridToggler.parentElement.addEventListener('mouseenter', toggleExpandGridContent);
-        gridToggler.parentElement.addEventListener('mouseleave', toggleExpandGridContent);
-      }
-    });
+    gridToggler.parentElement.addEventListener('mouseenter', toggleExpandGridContent);
+    gridToggler.parentElement.addEventListener('mouseleave', toggleExpandGridContent);
   } else {
     const isProductGrid = document.querySelector('.product-grid');
     if (isProductGrid) {
