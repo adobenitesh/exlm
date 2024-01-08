@@ -1,6 +1,6 @@
 import { loadCSS } from '../lib-franklin.js';
 import { createTag, htmlToElement } from '../scripts.js';
-import CONTENT_TYPES from './browse-cards-constants.js';
+import { CONTENT_TYPES } from './browse-cards-constants.js';
 
 /* User Info for Community Section - Will accomodate once we have KHOROS integration */
 // const generateContributorsMarkup = (contributor) => {
@@ -19,23 +19,11 @@ import CONTENT_TYPES from './browse-cards-constants.js';
 //         </div>`);
 // };
 
-const getTimeString = (date) => {
-  const hrs = date.getHours();
-  const timePeriod = hrs < 12 ? 'AM' : 'PM';
-  const hours = hrs === 0 ? 12 : hrs % 12;
-  return `${hours}:${date.getMinutes().toString().padStart(2, '0')} ${timePeriod}`;
-};
-
-const generateDateWithTZ = (time) => {
-  const date = new Date(time);
-  return new Date(date.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })); // TODO: apply localization once region selection is in place
-};
-
 const buildTagsContent = (cardMeta, tags = []) => {
   tags.forEach((tag) => {
     const { icon: iconName, text } = tag;
     if (text) {
-      const anchor = createTag('a', { class: 'browse-card-meta-anchor' });
+      const anchor = createTag('a', { class: 'browse-card-meta-anchor', title: 'user', href: '#' });
       const span = createTag('span', { class: `icon icon-${iconName}` });
       anchor.textContent = text;
       anchor.appendChild(span);
@@ -45,19 +33,12 @@ const buildTagsContent = (cardMeta, tags = []) => {
 };
 
 const buildEventContent = ({ event, cardContent, card }) => {
-  const { startTime, endTime } = event;
-  const dateInfo = generateDateWithTZ(startTime);
-  const endDateInfo = generateDateWithTZ(endTime);
-
-  const weekday = dateInfo.toLocaleDateString('en-US', { weekday: 'long' });
-  const month = dateInfo.toLocaleDateString('en-US', { month: 'long' });
-
+  const { time } = event;
   const eventInfo = htmlToElement(`
     <div class="browse-card-event-info">
         <span class="icon icon-time"></span>
         <div class="browse-card-event-time">
-            <h6>${weekday}, ${month} ${dateInfo.getDate()}</h6>
-            <h6>${getTimeString(dateInfo)} - ${getTimeString(endDateInfo)} PDT</h6>
+            <h6>${time}</h6>
         </div>
     </div>
   `);
@@ -70,7 +51,7 @@ const buildCardCtaContent = ({ cardFooter, contentType, viewLink, viewLinkText }
   let isLeftPlacement = false;
   if (contentType === 'tutorial') {
     icon = 'play-outline';
-    isLeftPlacement = true;
+    isLeftPlacement = false;
   } else if (
     contentType === CONTENT_TYPES.LIVE_EVENTS.MAPPING_KEY ||
     contentType === CONTENT_TYPES.EVENT.MAPPING_KEY ||
@@ -134,11 +115,16 @@ const buildCardContent = (card, model) => {
   const cardOptions = document.createElement('div');
   cardOptions.classList.add('browse-card-options');
   if (copyLink) {
-    const copyLinkAnchor = createTag('a', { href: copyLink }, `<span class="icon icon-copy"></span>`);
+    const copyLinkAnchor = createTag('a', { href: copyLink, title: 'copy' }, `<span class="icon icon-copy"></span>`);
     cardOptions.appendChild(copyLinkAnchor);
   }
-  const bookmarkAnchor = createTag('a', {}, `<span class="icon icon-bookmark"></span>`);
-  cardOptions.appendChild(bookmarkAnchor);
+  if (
+    contentType !== CONTENT_TYPES.LIVE_EVENTS.MAPPING_KEY &&
+    contentType !== CONTENT_TYPES.INSTRUCTOR_LED_TRANING.MAPPING_KEY
+  ) {
+    const bookmarkAnchor = createTag('a', { href: '#', title: 'copy' }, `<span class="icon icon-bookmark"></span>`);
+    cardOptions.appendChild(bookmarkAnchor);
+  }
   cardFooter.appendChild(cardOptions);
   buildCardCtaContent({ cardFooter, contentType, viewLink, viewLinkText });
 };
@@ -164,6 +150,8 @@ export default async function buildCard(element, model) {
   loadCSS(`${window.hlx.codeBasePath}/scripts/browse-card/browse-card.css`); // load css dynamically
   const { thumbnail, product, title, contentType, badgeTitle } = model;
   const type = contentType?.toLowerCase();
+  const courseMappingKey = CONTENT_TYPES.COURSE.MAPPING_KEY.toLowerCase();
+  const tutorialMappingKey = CONTENT_TYPES.TUTORIAL.MAPPING_KEY.toLowerCase();
   const card = createTag(
     'div',
     { class: `browse-card ${type}-card` },
@@ -172,9 +160,14 @@ export default async function buildCard(element, model) {
   const cardFigure = card.querySelector('.browse-card-figure');
   const cardContent = card.querySelector('.browse-card-content');
 
-  if (thumbnail) {
+  if ((type === courseMappingKey || type === tutorialMappingKey) && thumbnail) {
     const img = document.createElement('img');
     img.src = thumbnail;
+    img.loading = 'lazy';
+    img.alt = title;
+    img.width = 254;
+    img.height = 153;
+    cardFigure.classList.add('img-custom-height');
     cardFigure.appendChild(img);
   }
 

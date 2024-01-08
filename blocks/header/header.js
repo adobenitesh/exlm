@@ -80,17 +80,16 @@ const brandDecorator = (brandBlock) => {
   return brandBlock;
 };
 
-let adobeIMS = {
+window.adobeIMS = window.adobeIMS || {
   isSignedInUser: () => false,
 };
 try {
-  const ims = await loadIms();
-  adobeIMS = ims.adobeIMS;
+  await loadIms();
 } catch {
   // eslint-disable-next-line no-console
   console.warn('Adobe IMS not available.');
 }
-const isSignedIn = adobeIMS?.isSignedInUser();
+const isSignedIn = window.adobeIMS?.isSignedInUser();
 
 /**
  * adds hambuger button to nav wrapper
@@ -299,14 +298,14 @@ const searchDecorator = async (searchBlock) => {
   const searchWrapper = htmlToElement(
     `<div class="search-wrapper">
       <div class="search-short">
-        <a href="https://experienceleague.adobe.com/search.html">
+        <a href="https://experienceleague.adobe.com/search.html" aria-label="search">
           <span class="icon icon-search search-icon"></span>
         </a>
       </div>
       <div class="search-full">
         <div class="search-container">
           <span title="Search" class="icon icon-search"></span>
-          <input autocomplete="off" class="search-input" type="text" title="Insert a query. Press enter to send" role="combobox" placeholder="${
+          <input autocomplete="off" class="search-input" type="text" aria-label="top-nav-combo-search" aria-expanded="false" title="Insert a query. Press enter to send" role="combobox" placeholder="${
             searchPlaceholder.textContent
           }">
           <span title="Clear" class="icon icon-clear search-clear-icon"></span>
@@ -461,7 +460,7 @@ const signInDecorator = async (signInBlock) => {
   } else {
     signInBlock.classList.remove('signed-in');
     signInBlock.firstChild.addEventListener('click', async () => {
-      adobeIMS.signIn();
+      window.adobeIMS.signIn();
     });
   }
   return signInBlock;
@@ -505,8 +504,17 @@ const productGridDecorator = async (productGridBlock) => {
         productGridMenu.classList.remove(expandedClass);
       }
     };
-    gridToggler.parentElement.addEventListener('mouseenter', toggleExpandGridContent);
-    gridToggler.parentElement.addEventListener('mouseleave', toggleExpandGridContent);
+
+    registerResizeHandler(() => {
+      if (isMobile()) {
+        // if mobile, hide product grid block
+        gridToggler.style.display = 'none';
+      } else {
+        // if desktop, add mouseenter/mouseleave, remove click event
+        gridToggler.parentElement.addEventListener('mouseenter', toggleExpandGridContent);
+        gridToggler.parentElement.addEventListener('mouseleave', toggleExpandGridContent);
+      }
+    });
   } else {
     const isProductGrid = document.querySelector('.product-grid');
     if (isProductGrid) {
@@ -522,6 +530,7 @@ const productGridDecorator = async (productGridBlock) => {
  */
 const adobeLogoDecorator = (adobeLogoBlock) => {
   simplifySingleCellBlock(adobeLogoBlock);
+  adobeLogoBlock.querySelector('a').setAttribute('title', 'logo');
   return adobeLogoBlock;
 };
 

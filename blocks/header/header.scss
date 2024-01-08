@@ -87,6 +87,11 @@ header {
   }
 }
 
+.header-wrapper {
+  /* header is always white */
+  background-color: var(--color-white);
+}
+
 .header {
   padding-right: var(--header-padding-x);
   height: 100%;
@@ -175,10 +180,6 @@ header {
     display: var(--sign-in-display);
     order: var(--sign-in-order);
     align-items: center;
-
-    @include breakpoint(custom) {
-      display: none;
-    }
 
     a {
       color: var(--nav-item-text-color);

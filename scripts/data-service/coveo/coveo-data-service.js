@@ -33,7 +33,6 @@ export default class CoveoDataService {
         },
         body: JSON.stringify(this.dataSource.param),
       });
-
       if (response.status === 200) {
         const data = await response.json();
         return data || [];
@@ -45,9 +44,7 @@ export default class CoveoDataService {
 
       return null;
     } catch (error) {
-      /* eslint-disable no-console */
-      console.error('Error fetching data', error);
-      return null;
+      throw new Error(error);
     }
   }
 }
