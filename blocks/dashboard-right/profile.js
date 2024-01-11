@@ -38,7 +38,7 @@ function renderGenericTemplate(block, elem, dataUrl, sel, checkbox = true, dname
         elemBlock.classList.add(`${sel}-container`);
         elemBlock.innerHTML = dataUrl.data.map(data => `<div class='row'>
                 <label class='checkbox'>
-                    ${checkbox === true ? `<input title='${data.Label}' data-name='${dname}' data-value='${data.Name}' type='checkbox' value='${data.Name}'>` : `<input title='${data.Name}' data-name='${dname}' name='${dname}' data-value='${data.Name}' type='radio' value='${data.Name}'>`}
+                    ${checkbox === true ? `<input title='${data.Label}' data-autosave='true' data-name='${dname}' data-value='${data.Name}' type='checkbox' value='${data.Name}'>` : `<input title='${data.Name}' data-autosave='true' data-name='${dname}' name='${dname}' data-value='${data.Name}' type='radio' value='${data.Name}'>`}
                     <span class='subtext'>${data.Name}</span>
                 </label>
                 ${flag === true ? `<p class='descp'>${data.Description}</p>` : ''}
@@ -60,7 +60,7 @@ function decorateInterests(block){
                 interests.data.forEach((intName) => {
                     if(intName.Group[0] === interest){
                         columns.innerHTML += `<div class='row'><label class="checkbox">
-                            <input title='${intName.Name}' data-name='interests' data-value='${intName.Name}' type='checkbox' value='${intName.Name}'>
+                            <input title='${intName.Name}' data-autosave='true' data-name='interests' data-value='${intName.Name}' type='checkbox' value='${intName.Name}'>
                             <span class="subtext">${intName.Name}</span>
                         </label></div>`;
                     }
@@ -103,7 +103,7 @@ function decorateNotificationPrefs(block) {
     block.querySelector(".my-notification-preferences p:last-child").outerHTML = notificationPrefs;
 }
 
-function manageCheckboxes(){
+function manageCheckboxItems(){
     loadJWT().then(async () => {
         profile().then(async (data) => {
           console.log(data, "data");
@@ -118,5 +118,5 @@ export default async function decorateProfile(block) {
     decorateLevels(block);
     decorateIndustries(block);
     decorateNotificationPrefs(block);
-    manageCheckboxes();
+    manageCheckboxItems();
 }
