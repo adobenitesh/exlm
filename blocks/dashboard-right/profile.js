@@ -30,33 +30,31 @@ export async function autosave (block, ev) {
     const el = ev.target,
         els = block.querySelectorAll('*[data-autosave="true"]');
 
-    async () => {
-        let other = [];
+    let other = [];
 
-        if (el.dataset.name === 'interests' || el.dataset.name === 'role' || el.dataset.name === 'level') {
-            block.querySelectorAll(`[data-name="${el.dataset.name}"]`).forEach(i => {
-                if (i !== el && i.checked) {
-                other.push(i);
-                }
-            });
-        }
-
-        els.forEach(i => {
-            i.disabled = true;
+    if (el.dataset.name === 'interests' || el.dataset.name === 'role' || el.dataset.name === 'level') {
+        block.querySelectorAll(`[data-name="${el.dataset.name}"]`).forEach(i => {
+            if (i !== el && i.checked) {
+            other.push(i);
+            }
         });
+    }
 
-        const data = await updateProfile(el.dataset.name, value(el, other), el.dataset.replace === 'true');
+    els.forEach(i => {
+        i.disabled = true;
+    });
 
-        els.forEach(i => {
-            i.disabled = false;
-        });
+    const data = await updateProfile(el.dataset.name, value(el, other), el.dataset.replace === 'true');
 
-        if (data !== void 0) {
-            sendNotice("Your profile changes have been saved!");
-        } else {
-            sendNotice("Your profile changes have not been saved!");
-        }
-    };
+    els.forEach(i => {
+        i.disabled = false;
+    });
+
+    if (data !== void 0) {
+        sendNotice("Your profile changes have been saved!");
+    } else {
+        sendNotice("Your profile changes have not been saved!");
+    }
 }
 
 const notificationPrefs = `<div class="notification-container">
