@@ -5,8 +5,8 @@ import decorateProfile  from './profile.js';
 const isSignedIn = adobeIMS?.isSignedInUser();
 
 /**
- * Main header decorator, calls all the other decorators
- * @param {HTMLElement} headerBlock
+ * Dashboard Right decorator
+ * @param {HTMLElement} dashboardRightBlock
  */
 
 export default async function decorate(block) {

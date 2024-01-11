@@ -81,19 +81,19 @@ export async function autosave (block, ev) {
 const notificationPrefs = `<div class="notification-container">
         <div class='row'>
             <label class="checkbox">
-                <input data-name="emailOptIn" type="checkbox">
+                <input data-autosave='true' data-name="emailOptIn" type="checkbox">
                 <span class="subtext">Send me Experience League emails about my progress, awards, and recommended learning</span>
             </label>
         </div>
         <div class='row'>
             <label class="checkbox">
-                <input data-name="geo" type="checkbox">
+                <input data-autosave='true' data-name="geo" type="checkbox">
                 <span class="subtext">Use my location for local event recommendations</span>
             </label>
         </div>
         <div class='row'>
             <label class="checkbox">
-                <input data-name="inProductActivity" type="checkbox">
+                <input data-autosave='true' data-name="inProductActivity" type="checkbox">
                 <span class="subtext">Connect my in-product activity with Experience League for more personalized learning</span>
             </label>
         </div>
