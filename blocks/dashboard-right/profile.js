@@ -26,6 +26,33 @@ const sendNotice = (noticelabel) => {
     }
 };
 
+function value (el, include = []) {
+    let result;
+  
+    if (el.nodeName === 'SELECT') {
+      result = el.multiple ? Array.from(el.selectedOptions).map(i => i.value) : el[el.selectedIndex].value;
+  
+      if (el.multiple === false && el.dataset.multi === 'true') {
+        result = [result];
+      }
+    } else if (typeof el.checked !== void 0) {
+      result = el.value !== 'on' ? el.checked ? el.value : void 0 : el.checked;
+  
+      if (include.length > 0) {
+        result = result !== void 0 ? [result] : [];
+        include.forEach(i => result.push(i.value));
+      } else if (el.dataset.multi === 'true') {
+        result = result !== void 0 ? [result] : [];
+      }
+    }
+  
+    if (result instanceof Array) {
+      result = result.filter(i => i.trim().length > 0);
+    }
+  
+    return result;
+}
+
 export async function autosave (block, ev) {
     const el = ev.target,
         els = block.querySelectorAll('*[data-autosave="true"]');
