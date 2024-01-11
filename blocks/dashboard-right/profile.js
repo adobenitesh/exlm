@@ -108,9 +108,10 @@ function manageCheckboxItems(){
         profile().then(async (data) => {
           const checkboxes = document.querySelectorAll(".dashboard-right input[type='checkbox']");
             checkboxes.forEach((checkbox) => {
-                if(data[checkbox.dataset.name].includes(checkbox.dataset.name)){
-                    checkbox.checked = true;
-                }
+                console.log(data[checkbox.dataset.name], "hello moto");
+                // if(data[checkbox.dataset.name].includes(checkbox.dataset.name)){
+                //     checkbox.checked = true;
+                // }
             });
         });
       });
