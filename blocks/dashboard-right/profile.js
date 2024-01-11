@@ -106,9 +106,11 @@ function decorateNotificationPrefs(block) {
 function manageCheckboxItems(){
     loadJWT().then(async () => {
         profile().then(async (data) => {
+            console.log(data, "hello data");
           const checkboxes = document.querySelectorAll(".dashboard-right input[type='checkbox']");
             checkboxes.forEach((checkbox) => {
-                console.log(data[checkbox.dataset.name], "hello moto");
+                console.log(checkbox, "hello checkbox");
+                console.log(checkbox.dataset.name, "hello dataset name");
                 // if(data[checkbox.dataset.name].includes(checkbox.dataset.name)){
                 //     checkbox.checked = true;
                 // }
