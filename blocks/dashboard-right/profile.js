@@ -44,7 +44,7 @@ export async function autosave (block, ev) {
         i.disabled = true;
       });
   
-      const data = await updateProfile(ev.dataset.name, value(el, other), ev.dataset.replace === 'true');
+      const data = await updateProfile(ev.dataset.name, value(ev, other), ev.dataset.replace === 'true');
 
         els.forEach(i => {
           i.disabled = false;
