@@ -27,15 +27,14 @@ const sendNotice = (noticelabel) => {
 };
 
 export async function autosave (block, ev) {
-    const el = ev.currentTarget,
-      els = block.querySelectorAll('*[data-autosave="true"]');
+    const els = block.querySelectorAll('*[data-autosave="true"]');
   
     async () => {
       let other = [];
   
-      if (el.dataset.name === 'interests' || el.dataset.name === 'role' || el.dataset.name === 'level') {
-        block.querySelectorAll(`[data-name="${el.dataset.name}"]`).forEach(i => {
-          if (i !== el && i.checked) {
+      if (ev.dataset.name === 'interests' || ev.dataset.name === 'role' || ev.dataset.name === 'level') {
+        block.querySelectorAll(`[data-name="${ev.dataset.name}"]`).forEach(i => {
+          if (i !== ev && i.checked) {
             other.push(i);
           }
         });
@@ -45,7 +44,7 @@ export async function autosave (block, ev) {
         i.disabled = true;
       });
   
-      const data = await updateProfile(el.dataset.name, value(el, other), el.dataset.replace === 'true');
+      const data = await updateProfile(ev.dataset.name, value(el, other), ev.dataset.replace === 'true');
 
         els.forEach(i => {
           i.disabled = false;
@@ -174,7 +173,7 @@ function manageCheckboxItems(block){
         });
       });
 
-      block.querySelectorAll('*[data-autosave="true"]').forEach(i => i.addEventListener('change', ev => autosave(block, ev), false));
+      block.querySelectorAll('*[data-autosave="true"]').forEach(i => i.addEventListener('change', ev => autosave(block, this), false));
 }
 
 export default async function decorateProfile(block) {
