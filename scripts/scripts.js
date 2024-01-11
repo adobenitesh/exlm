@@ -136,11 +136,28 @@ function addBrowseRail(main) {
   main.append(leftRailSection);
 }
 
-function addBrowseBreadCrumb(main) {
-  // add new section at the top
-  const section = document.createElement('div');
-  main.prepend(section);
-  section.append(buildBlock('browse-breadcrumb', []));
+/**
+ * return Dashboard page theme if its Dashboard page.
+ * theme = dashboard,* is set as metadata for /en/dashboard/* paths.
+ */
+export function isDashboardPage() {
+    return getMetadata('theme');
+}
+
+/**
+ * add left/right containers when on a dashboard/* page.
+ */
+function addDashboardSection(main) {
+  const dashboardSection = document.createElement('div');
+  const leftDashboardSection = dashboardSection.cloneNode(true);
+  const rightDashboardSection = dashboardSection.cloneNode(true);
+    dashboardSection.classList.add('dashboard-container');
+    leftDashboardSection.classList.add('dashboard-left');
+    leftDashboardSection.append(buildBlock('dashboard-left', []));
+    rightDashboardSection.classList.add('dashboard-right');
+    rightDashboardSection.append(buildBlock('dashboard-right', []));
+    dashboardSection.append(leftDashboardSection, rightDashboardSection);
+    main.appendChild(dashboardSection);
 }
 
 /**
@@ -152,8 +169,9 @@ function buildAutoBlocks(main) {
     buildSyntheticBlocks(main);
     // if we are on a product browse page
     if (isBrowsePage()) {
-      addBrowseBreadCrumb(main);
       addBrowseRail(main);
+    } else if(isDashboardPage().indexOf("dashboard") !== -1){
+      addDashboardSection(main);
     }
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -518,19 +536,3 @@ sampleRUM.always.on('convert', (data) => {
 });
 
 loadPage();
-
-/**
- * Helper function that converts an AEM path into an EDS path.
- */
-export function getEDSLink(aemPath) {
-  return window.hlx.aemRoot ? aemPath.replace(window.hlx.aemRoot, '').replace('.html', '') : aemPath;
-}
-
-/**
- * Helper function that adapts the path to work on EDS and AEM rendering
- */
-export function getLink(edsPath) {
-  return window.hlx.aemRoot && !edsPath.startsWith(window.hlx.aemRoot) && edsPath.indexOf('.html') === -1
-    ? `${window.hlx.aemRoot}${edsPath}.html`
-    : edsPath;
-}
