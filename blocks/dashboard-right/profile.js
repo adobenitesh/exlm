@@ -41,6 +41,7 @@ function manageValue (el, include = []) {
         include.forEach(i => result.push(i.value));
         // eslint-disable-next-line
       } else if (el.dataset.multi === 'true') {
+        // eslint-disable-next-line
         result = result !== void 0 ? [result] : [];
       }
     }
@@ -113,6 +114,7 @@ const [interests, industries, levels, roles, preferences] = await Promise.all([
     fetchProfileData(preferencesUrl, 'text'),
 ]);
 
+// eslint-disable-next-line
 function renderGenericTemplate(block, elem, dataUrl, sel, checkbox = true, dname, flag = false){
     const elemSelector = block.querySelector(elem);
     const elemContent = elemSelector.querySelector("p:last-child");
