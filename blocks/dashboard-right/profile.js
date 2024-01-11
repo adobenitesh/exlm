@@ -30,7 +30,7 @@ export async function autosave (block, ev) {
     const el = ev.currentTarget,
       els = block.querySelectorAll('*[data-autosave="true"]');
   
-    render(async () => {
+    async () => {
       let other = [];
   
       if (el.dataset.name === 'interests' || el.dataset.name === 'role' || el.dataset.name === 'level') {
@@ -56,7 +56,7 @@ export async function autosave (block, ev) {
         } else {
             sendNotice("Your profile changes have not been saved!");
         }
-    });
+    };
 }
 
 const notificationPrefs = `<div class="notification-container">
