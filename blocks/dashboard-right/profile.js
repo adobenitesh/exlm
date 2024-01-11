@@ -106,7 +106,12 @@ function decorateNotificationPrefs(block) {
 function manageCheckboxItems(){
     loadJWT().then(async () => {
         profile().then(async (data) => {
-          console.log(data, "data");
+          const checkboxes = document.querySelectorAll(".dashboard-right input[type='checkbox']");
+            checkboxes.forEach((checkbox) => {
+                if(data[checkbox.dataset.name] === true){
+                    checkbox.checked = true;
+                }
+            });
         });
       });
 }

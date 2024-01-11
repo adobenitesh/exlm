@@ -52,6 +52,7 @@
 }
 
 .dashboard-right-wrapper .checkbox{
+    cursor: pointer;
     display: inline-flex;
     gap: 10px;
 }
