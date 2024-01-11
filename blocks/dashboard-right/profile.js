@@ -26,16 +26,10 @@ const sendNotice = (noticelabel) => {
     }
 };
 
-function value (el, include = []) {
+function manageValue (el, include = []) {
     let result;
   
-    if (el.nodeName === 'SELECT') {
-      result = el.multiple ? Array.from(el.selectedOptions).map(i => i.value) : el[el.selectedIndex].value;
-  
-      if (el.multiple === false && el.dataset.multi === 'true') {
-        result = [result];
-      }
-    } else if (typeof el.checked !== void 0) {
+    if (typeof el.checked !== void 0) {
       result = el.value !== 'on' ? el.checked ? el.value : void 0 : el.checked;
   
       if (include.length > 0) {
@@ -71,7 +65,7 @@ export async function autosave (block, ev) {
         i.disabled = true;
     });
 
-    const data = await updateProfile(el.dataset.name, value(el, other), el.dataset.replace === 'true');
+    const data = await updateProfile(el.dataset.name, manageValue(el, other), el.dataset.replace === 'true');
 
     els.forEach(i => {
         i.disabled = false;
