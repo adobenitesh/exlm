@@ -108,7 +108,7 @@ function manageCheckboxItems(){
         profile().then(async (data) => {
           const checkboxes = document.querySelectorAll(".dashboard-right input[type='checkbox']");
             checkboxes.forEach((checkbox) => {
-                if(data[checkbox.dataset.name] === checkbox.dataset.name){
+                if(data[checkbox.dataset.name].includes(checkbox.dataset.name)){
                     checkbox.checked = true;
                 }
             });
