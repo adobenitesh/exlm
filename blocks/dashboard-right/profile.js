@@ -28,8 +28,6 @@ const sendNotice = (noticelabel) => {
 
 export async function autosave (block, ev) {
     const els = block.querySelectorAll('*[data-autosave="true"]');
-  
-    async () => {
       let other = [];
   
       if (ev.dataset.name === 'interests' || ev.dataset.name === 'role' || ev.dataset.name === 'level') {
@@ -55,7 +53,6 @@ export async function autosave (block, ev) {
         // } else {
         //     sendNotice("Your profile changes have not been saved!");
         // }
-    };
 }
 
 const notificationPrefs = `<div class="notification-container">
@@ -170,7 +167,7 @@ function manageCheckboxItems(block){
                     checkbox.checked = true;
                 }
             });
-            block.querySelectorAll('*[data-autosave="true"]').forEach(i => i.addEventListener('change', ev => autosave(block, ev), false));
+            block.querySelectorAll('*[data-autosave="true"]').forEach(i => i.addEventListener('change', ev => autosave(block, ev)));
         });
       });
 }
