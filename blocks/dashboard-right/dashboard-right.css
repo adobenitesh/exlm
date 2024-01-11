@@ -12,7 +12,7 @@
     top: 10%;
     bottom: unset;
     z-index: 15;
-    width: 90%;
+    max-width: 320px;
   }
   .exl-toast-content {
     border-right: 1px solid rgba(255, 255, 255, 0.25);
