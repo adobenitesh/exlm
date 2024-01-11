@@ -170,10 +170,9 @@ function manageCheckboxItems(block){
                     checkbox.checked = true;
                 }
             });
+            block.querySelectorAll('*[data-autosave="true"]').forEach(i => i.addEventListener('change', ev => autosave(block, ev), false));
         });
       });
-
-      block.querySelectorAll('*[data-autosave="true"]').forEach(i => i.addEventListener('change', ev => autosave(block, this), false));
 }
 
 export default async function decorateProfile(block) {
