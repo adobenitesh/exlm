@@ -103,14 +103,11 @@ function decorateNotificationPrefs(block) {
     block.querySelector(".my-notification-preferences p:last-child").outerHTML = notificationPrefs;
 }
 
-function manageCheckboxItems(){
+function manageCheckboxItems(block){
     loadJWT().then(async () => {
         profile().then(async (data) => {
-            console.log(data, "hello data");
-          const checkboxes = document.querySelectorAll(".dashboard-right input[type='checkbox'], .dashboard-right input[type='radio']");
+          const checkboxes = block.querySelectorAll(".dashboard-right input[type='checkbox'], .dashboard-right input[type='radio']");
             checkboxes.forEach((checkbox) => {
-                console.log(checkbox, "hello checkbox");
-                console.log(data[checkbox.dataset.name], "hello data chebkbox name");
                 if(Array.isArray(data[checkbox.dataset.name]) === true && data[checkbox.dataset.name].includes(checkbox.dataset.value)){
                     checkbox.checked = true;
                 } else if(data[checkbox.dataset.name] === true || data[checkbox.dataset.name] === checkbox.dataset.value){
@@ -128,5 +125,5 @@ export default async function decorateProfile(block) {
     decorateLevels(block);
     decorateIndustries(block);
     decorateNotificationPrefs(block);
-    manageCheckboxItems();
+    manageCheckboxItems(block);
 }
