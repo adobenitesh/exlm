@@ -113,9 +113,7 @@ function manageCheckboxItems(){
                 console.log(data[checkbox.dataset.name], "hello data chebkbox name");
                 if(Array.isArray(data[checkbox.dataset.name]) === true && data[checkbox.dataset.name].includes(checkbox.dataset.value)){
                     checkbox.checked = true;
-                } else if(data[checkbox.dataset.name] === checkbox.dataset.value){
-                    checkbox.checked = true;
-                } else if(data[checkbox.dataset.name] === true){
+                } else if(data[checkbox.dataset.name] === true || data[checkbox.dataset.name] === checkbox.dataset.value){
                     checkbox.checked = true;
                 }
             });
