@@ -111,7 +111,7 @@ function manageCheckboxItems(){
             checkboxes.forEach((checkbox) => {
                 console.log(checkbox, "hello checkbox");
                 console.log(data[checkbox.dataset.name], "hello data chebkbox name");
-                if(Array.isArray(data[checkbox.dataset.name]) === true && data[checkbox.dataset.name].includes(checkbox.dataset.name)){
+                if(Array.isArray(data[checkbox.dataset.name]) === true && data[checkbox.dataset.name].includes(checkbox.dataset.value)){
                     checkbox.checked = true;
                 } else if(data[checkbox.dataset.name] === true){
                     checkbox.checked = true;
