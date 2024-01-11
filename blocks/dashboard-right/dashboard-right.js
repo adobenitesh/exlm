@@ -10,7 +10,7 @@ const isSignedIn = adobeIMS?.isSignedInUser();
  */
 
 export default async function decorate(block) {
-    if(getMetadata('theme') === 'dashboard,profile' && !isSignedIn) {
+    if(getMetadata('theme') === 'dashboard,profile' && isSignedIn) {
         decorateProfile(block);
     }
 }
