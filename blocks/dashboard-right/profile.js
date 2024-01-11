@@ -44,17 +44,17 @@ export async function autosave (block, ev) {
         i.disabled = true;
       });
   
-      const data = await updateProfile(ev.dataset.name, value(ev, other), ev.dataset.replace === 'true');
+      await updateProfile(ev.dataset.name, value(ev, other), ev.dataset.replace === 'true');
 
         els.forEach(i => {
           i.disabled = false;
         });
   
-        if (data !== void 0) {
-            sendNotice("Your profile changes have been saved!");
-        } else {
-            sendNotice("Your profile changes have not been saved!");
-        }
+        // if (data !== void 0) {
+        //     sendNotice("Your profile changes have been saved!");
+        // } else {
+        //     sendNotice("Your profile changes have not been saved!");
+        // }
     };
 }
 
