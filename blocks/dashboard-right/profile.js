@@ -27,33 +27,36 @@ const sendNotice = (noticelabel) => {
 };
 
 export async function autosave (block, ev) {
-    const els = block.querySelectorAll('*[data-autosave="true"]');
-  
-    let other = [];
+    const el = ev.target,
+        els = block.querySelectorAll('*[data-autosave="true"]');
 
-    if (ev.dataset.name === 'interests' || ev.dataset.name === 'role' || ev.dataset.name === 'level') {
-        block.querySelectorAll(`[data-name="${ev.dataset.name}"]`).forEach(i => {
-            if (i !== ev && i.checked) {
+    async () => {
+        let other = [];
+
+        if (el.dataset.name === 'interests' || el.dataset.name === 'role' || el.dataset.name === 'level') {
+            block.querySelectorAll(`[data-name="${el.dataset.name}"]`).forEach(i => {
+                if (i !== el && i.checked) {
                 other.push(i);
-            }
+                }
+            });
+        }
+
+        els.forEach(i => {
+            i.disabled = true;
         });
-    }
 
-    els.forEach(i => {
-        i.disabled = true;
-    });
+        const data = await updateProfile(el.dataset.name, value(el, other), el.dataset.replace === 'true');
 
-    const data = await updateProfile(ev.dataset.name, value(ev, other), ev.dataset.replace === 'true');
+        els.forEach(i => {
+            i.disabled = false;
+        });
 
-    els.forEach(i => {
-        i.disabled = false;
-    });
-
-    if (data !== void 0) {
-        sendNotice("Your profile changes have been saved!");
-    } else {
-        sendNotice("Your profile changes have not been saved!");
-    }
+        if (data !== void 0) {
+            sendNotice("Your profile changes have been saved!");
+        } else {
+            sendNotice("Your profile changes have not been saved!");
+        }
+    };
 }
 
 const notificationPrefs = `<div class="notification-container">
@@ -168,7 +171,7 @@ function manageCheckboxItems(block){
                     checkbox.checked = true;
                 }
             });
-            block.querySelectorAll('*[data-autosave="true"]').forEach(i => i.addEventListener('change', ev => autosave(block, ev.target), false));
+            block.querySelectorAll('*[data-autosave="true"]').forEach(i => i.addEventListener('change', ev => autosave(block, ev), false));
         });
       });
 }
