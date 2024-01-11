@@ -2,6 +2,63 @@ import { interestsUrl, industriesUrl, levelsUrl, rolesUrl, preferencesUrl} from 
 import loadJWT from '../../scripts/auth/jwt.js';
 import { profile, updateProfile, fetchProfileData } from '../../scripts/data-service/profile-service.js';
 
+const noticeTemplate = (info) => {
+    const noticeContent = document.createElement('div');
+    noticeContent.className = 'exl-toast';
+    noticeContent.innerHTML = `<div class="icon-info"></div>
+          <div class="exl-toast-content">${info}</div>
+          <div class="icon-close"></div>`;
+    return noticeContent;
+};
+  
+const sendNotice = (noticelabel) => {
+    const sendNoticeContent = noticeTemplate(noticelabel);
+    document.body.prepend(sendNoticeContent);
+    const isExlNotice = document.querySelector('.exl-toast');
+    if (isExlNotice) {
+      document.querySelector('.exl-toast .icon-close').addEventListener('click', () => {
+        isExlNotice.remove();
+      });
+  
+      setTimeout(() => {
+        isExlNotice.remove();
+      }, 3000);
+    }
+};
+
+export async function autosave (block, ev) {
+    const el = ev.currentTarget,
+      els = block.querySelectorAll('*[data-autosave="true"]');
+  
+    render(async () => {
+      let other = [];
+  
+      if (el.dataset.name === 'interests' || el.dataset.name === 'role' || el.dataset.name === 'level') {
+        block.querySelectorAll(`[data-name="${el.dataset.name}"]`).forEach(i => {
+          if (i !== el && i.checked) {
+            other.push(i);
+          }
+        });
+      }
+  
+      els.forEach(i => {
+        i.disabled = true;
+      });
+  
+      const data = await updateProfile(el.dataset.name, value(el, other), el.dataset.replace === 'true');
+
+        els.forEach(i => {
+          i.disabled = false;
+        });
+  
+        if (data !== void 0) {
+            sendNotice("Your profile changes have been saved!");
+        } else {
+            sendNotice("Your profile changes have not been saved!");
+        }
+    });
+}
+
 const notificationPrefs = `<div class="notification-container">
         <div class='row'>
             <label class="checkbox">
@@ -116,6 +173,8 @@ function manageCheckboxItems(block){
             });
         });
       });
+
+      block.querySelectorAll('*[data-autosave="true"]').forEach(i => i.addEventListener('change', ev => autosave(block, ev), false));
 }
 
 export default async function decorateProfile(block) {
