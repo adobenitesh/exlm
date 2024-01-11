@@ -107,7 +107,7 @@ function manageCheckboxItems(){
     loadJWT().then(async () => {
         profile().then(async (data) => {
             console.log(data, "hello data");
-          const checkboxes = document.querySelectorAll(".dashboard-right input[type='checkbox']");
+          const checkboxes = document.querySelectorAll(".dashboard-right input[type='checkbox'], .dashboard-right input[type='radio']");
             checkboxes.forEach((checkbox) => {
                 console.log(checkbox, "hello checkbox");
                 console.log(data[checkbox.dataset.name], "hello data chebkbox name");
