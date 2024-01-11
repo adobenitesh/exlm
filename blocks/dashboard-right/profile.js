@@ -28,13 +28,18 @@ const sendNotice = (noticelabel) => {
 
 function manageValue (el, include = []) {
     let result;
-  
+    
+    // eslint-disable-next-line
     if (typeof el.checked !== void 0) {
+      // eslint-disable-next-line
       result = el.value !== 'on' ? el.checked ? el.value : void 0 : el.checked;
   
       if (include.length > 0) {
+        // eslint-disable-next-line
         result = result !== void 0 ? [result] : [];
+        // eslint-disable-next-line
         include.forEach(i => result.push(i.value));
+        // eslint-disable-next-line
       } else if (el.dataset.multi === 'true') {
         result = result !== void 0 ? [result] : [];
       }
@@ -48,10 +53,10 @@ function manageValue (el, include = []) {
 }
 
 export async function autosave (block, ev) {
-    const el = ev.target,
-        els = block.querySelectorAll('*[data-autosave="true"]');
+    const el = ev.target;
+    const els = block.querySelectorAll('*[data-autosave="true"]');
 
-    let other = [];
+    const other = [];
 
     if (el.dataset.name === 'interests' || el.dataset.name === 'role' || el.dataset.name === 'level') {
         block.querySelectorAll(`[data-name="${el.dataset.name}"]`).forEach(i => {
@@ -71,6 +76,7 @@ export async function autosave (block, ev) {
         i.disabled = false;
     });
 
+    // eslint-disable-next-line
     if (data !== void 0) {
         sendNotice("Your profile changes have been saved!");
     } else {
@@ -129,7 +135,7 @@ function decorateInterests(block){
     const columnsContainer = document.createElement('div');
         columnsContainer.classList.add('interests-container');
         interestsGroup.forEach((interest) => {
-            let columns = document.createElement('div');
+            const columns = document.createElement('div');
                 columns.classList.add('interests-columns');
                 columns.setAttribute('data-name', interest);
                 columns.innerHTML += `<h3>${interest}</h3>`;
@@ -153,7 +159,7 @@ function decorateInterests(block){
                         const intColRows = intCol.querySelectorAll('.row');
                             intColRows.forEach((icr, index) => {
                                 const icrContent = icr.querySelector('.subtext');
-                                if(index != 0 && icrContent.innerHTML.indexOf("Experience Manager") !== -1){
+                                if(index !== 0 && icrContent.innerHTML.indexOf("Experience Manager") !== -1){
                                     const newIcrContent = icrContent.innerHTML.replace('Experience Manager','');
                                         icr.classList.add('row-offset');
                                         icrContent.innerHTML = newIcrContent;
