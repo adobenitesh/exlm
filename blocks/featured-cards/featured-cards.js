@@ -1,7 +1,7 @@
 import { decorateIcons } from '../../scripts/lib-franklin.js';
 import BrowseCardsDelegate from '../../scripts/browse-card/browse-cards-delegate.js';
 import { htmlToElement } from '../../scripts/scripts.js';
-import buildCard from '../../scripts/browse-card/browse-card.js';
+import { buildCard } from '../../scripts/browse-card/browse-card.js';
 import BuildPlaceholder from '../../scripts/browse-card/browse-card-placeholder.js';
 import { CONTENT_TYPES, ROLE_OPTIONS } from '../../scripts/browse-card/browse-cards-constants.js';
 import SolutionDataService from '../../scripts/data-service/solutions-data-service.js';
@@ -19,14 +19,14 @@ export default async function decorate(block) {
   const headingElement = block.querySelector('div:nth-child(1) > div');
   const descriptionElement = block.querySelector('div:nth-child(2) > div');
   const contentType = block.querySelector('div:nth-child(3) > div')?.textContent?.trim()?.toLowerCase();
-  const linkTextElement = block.querySelector('div:nth-child(4) > div > a');
+  const linkTextElement = block.querySelector('div:nth-child(4) > div');
   const noOfResults = 16;
 
   block.innerHTML = '';
   const headerDiv = htmlToElement(`
     <div class="browse-cards-block-header">
       <div class="browse-cards-block-title">
-        <h4>${headingElement?.textContent.trim()}</h4>
+        <h2>${headingElement?.textContent.trim()}</h2>
       </div>
       <div class="browse-card-description-text">
         <p>${descriptionElement?.textContent.trim()}</p>
@@ -140,6 +140,7 @@ export default async function decorate(block) {
 
   /* eslint-disable-next-line */
   const fetchDataAndRenderBlock = (param, contentType, block, contentDiv) => {
+    buildCardsShimmer.show();
     const browseCardsContent = BrowseCardsDelegate.fetchCardData(param);
     browseCardsContent
       .then((data) => {
@@ -168,7 +169,7 @@ export default async function decorate(block) {
   fetchDataAndRenderBlock(param, contentType, block, contentDiv);
 
   const linkDiv = htmlToElement(`
-    <div class="browse-cards-block-view">${linkTextElement?.outerHTML}</div>
+    <div class="browse-cards-block-view">${linkTextElement?.innerHTML}</div>
   `);
 
   buildCardsShimmer.setParent(contentDiv);
