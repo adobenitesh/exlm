@@ -1,41 +1,19 @@
-import { fetchPlaceholders } from '../../scripts/lib-franklin.js';
+import { loadCSS, fetchPlaceholders } from '../../scripts/lib-franklin.js';
 import { isDocPage } from '../../scripts/scripts.js';
-import loadJWT from '../../scripts/auth/jwt.js';
-import { adobeIMS, profile, updateProfile } from '../../scripts/data-service/profile-service.js';
+import { adobeIMS } from '../../scripts/data-service/profile-service.js';
+import { tooltipTemplate } from '../../scripts/toast/toast.js';
+import { renderBookmark } from '../../scripts/bookmark/bookmark.js';
+import { renderCopyLink } from '../../scripts/copy-link/copy-link.js';
 
-const placeholders = await fetchPlaceholders();
+loadCSS(`${window.hlx.codeBasePath}/scripts/toast/toast.css`);
 
-const tooltipTemplate = (sel, label, tiptext) => {
-  const tooltipContent = `<div class="exl-tooltip">
-        <span class="icon ${sel}"></span>
-        <span class="exl-tooltip-label">${tiptext}</span></div>
-        <span class="exl-link-label">${label}</span>`;
-  return tooltipContent;
-};
-
-const noticeTemplate = (info) => {
-  const noticeContent = document.createElement('div');
-  noticeContent.className = 'exl-toast';
-  noticeContent.innerHTML = `<div class="icon-info"></div>
-        <div class="exl-toast-content">${info}</div>
-        <div class="icon-close"></div>`;
-  return noticeContent;
-};
-
-const sendNotice = (noticelabel) => {
-  const sendNoticeContent = noticeTemplate(noticelabel);
-  document.body.prepend(sendNoticeContent);
-  const isExlNotice = document.querySelector('.exl-toast');
-  if (isExlNotice) {
-    document.querySelector('.exl-toast .icon-close').addEventListener('click', () => {
-      isExlNotice.remove();
-    });
-
-    setTimeout(() => {
-      isExlNotice.remove();
-    }, 3000);
-  }
-};
+let placeholders = {};
+try {
+    placeholders = await fetchPlaceholders();
+} catch (err) {
+// eslint-disable-next-line no-console
+    console.error('Error fetching placeholders:', err);
+}
 
 function decorateBookmarkMobileBlock() {
   const docActionsMobile = document.createElement('div');
@@ -76,41 +54,7 @@ export function decorateBookmark(block) {
       document.querySelector('.doc-actions-mobile').appendChild(authBookmark.cloneNode(true));
     }
     const bookmarkAuthed = document.querySelectorAll('.bookmark.auth');
-    if (bookmarkAuthed.length > 0) {
-      bookmarkAuthed.forEach((elem) => {
-        const bookmarkAuthedToolTipLabel = elem.querySelector('.exl-tooltip-label');
-        const bookmarkAuthedToolTipIcon = elem.querySelector('.icon.bookmark-icon');
-        if (id) {
-          loadJWT().then(async () => {
-            profile().then(async (data) => {
-              if (data.bookmarks.includes(id)) {
-                bookmarkAuthedToolTipIcon.classList.add('authed');
-                bookmarkAuthedToolTipLabel.innerHTML = `${placeholders.bookmarkAuthLabelRemove}`;
-              }
-            });
-
-            bookmarkAuthedToolTipIcon.addEventListener('click', async () => {
-              if (bookmarkAuthedToolTipIcon.classList.contains('authed')) {
-                await updateProfile('bookmarks', id);
-                bookmarkAuthedToolTipLabel.innerHTML = `${placeholders.bookmarkAuthLabelSet}`;
-                bookmarkAuthedToolTipIcon.classList.remove('authed');
-                sendNotice(`${placeholders.bookmarkUnset}`);
-                bookmarkAuthedToolTipIcon.style.pointerEvents = 'none';
-              } else {
-                await updateProfile('bookmarks', id);
-                bookmarkAuthedToolTipLabel.innerHTML = `${placeholders.bookmarkAuthLabelRemove}`;
-                bookmarkAuthedToolTipIcon.classList.add('authed');
-                sendNotice(`${placeholders.bookmarkSet}`);
-                bookmarkAuthedToolTipIcon.style.pointerEvents = 'none';
-              }
-              setTimeout(() => {
-                bookmarkAuthedToolTipIcon.style.pointerEvents = 'auto';
-              }, 3000);
-            });
-          });
-        }
-      });
-    }
+      renderBookmark(bookmarkAuthed, id);
   } else {
     block.appendChild(unAuthBookmark);
     if (document.querySelector('.doc-actions-mobile')) {
@@ -119,7 +63,7 @@ export function decorateBookmark(block) {
   }
 }
 
-export function decorateCopyLink(block) {
+function decorateCopyLink(block) {
   const copyLinkDivNode = document.createElement('div');
   copyLinkDivNode.className = 'copy-link';
   copyLinkDivNode.innerHTML = tooltipTemplate(
@@ -129,19 +73,18 @@ export function decorateCopyLink(block) {
   );
 
   block.appendChild(copyLinkDivNode);
-  if (document.querySelector('.doc-actions-mobile')) {
-    document.querySelector('.doc-actions-mobile').appendChild(copyLinkDivNode.cloneNode(true));
-  }
-  const copyLinkIcons = document.querySelectorAll('.icon.copy-link-url');
-  copyLinkIcons.forEach((copyLinkIcon) => {
-    if (copyLinkIcon) {
-      copyLinkIcon.addEventListener('click', (e) => {
-        e.preventDefault();
-        navigator.clipboard.writeText(window.location.href);
-        sendNotice(`${placeholders.toastSet}`);
-      });
+  const docActionsDesktopIconCopy = document.querySelector('.doc-actions .icon.copy-link-url');
+  const docActionsMobile = document.querySelector('.doc-actions-mobile');
+
+    if (docActionsDesktopIconCopy) {
+      renderCopyLink(docActionsDesktopIconCopy, window.location.href, placeholders.toastSet);
     }
-  });
+    
+    if (docActionsMobile) {
+      docActionsMobile.appendChild(copyLinkDivNode.cloneNode(true));
+      const docActionsMobileIconCopy = docActionsMobile.querySelector('.icon.copy-link-url');
+        renderCopyLink(docActionsMobileIconCopy, window.location.href, placeholders.toastSet);
+    }
 }
 
 export default async function decorateDocActions(block) {

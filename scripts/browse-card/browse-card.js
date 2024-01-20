@@ -1,6 +1,9 @@
 import { loadCSS, fetchPlaceholders } from '../lib-franklin.js';
 import { createTag, htmlToElement } from '../scripts.js';
 import { CONTENT_TYPES } from './browse-cards-constants.js';
+import { renderCopyLink } from '../../scripts/copy-link/copy-link.js';
+
+loadCSS(`${window.hlx.codeBasePath}/scripts/toast/toast.css`);
 
 /* User Info for Community Section - Will accomodate once we have KHOROS integration */
 // const generateContributorsMarkup = (contributor) => {
@@ -89,7 +92,7 @@ const buildCardCtaContent = ({ cardFooter, contentType, viewLink, viewLinkText }
 const stripScriptTags = (input) => input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
 
 const buildCardContent = (card, model) => {
-  const { description, contentType: type, viewLinkText, viewLink, copyLink, tags, event = {} } = model;
+  const { id, description, contentType: type, viewLinkText, viewLink, copyLink, tags, event = {} } = model;
   const contentType = type.toLowerCase();
   const cardContent = card.querySelector('.browse-card-content');
   const cardFooter = card.querySelector('.browse-card-footer');
@@ -128,10 +131,14 @@ const buildCardContent = (card, model) => {
   cardOptions.classList.add('browse-card-options');
   if (
     contentType !== CONTENT_TYPES.LIVE_EVENTS.MAPPING_KEY &&
+    contentType !== CONTENT_TYPES.COMMUNITY.MAPPING_KEY &&
     contentType !== CONTENT_TYPES.INSTRUCTOR_LED_TRANING.MAPPING_KEY
   ) {
     const bookmarkAnchor = createTag('a', { href: '#', title: 'copy' }, `<span class="icon icon-bookmark"></span>`);
     cardOptions.appendChild(bookmarkAnchor);
+    if(id){
+      cardOptions.children[0].setAttribute('data-id', id);
+    }
   }
   if (copyLink) {
     const copyLinkAnchor = createTag('a', { href: copyLink, title: 'copy' }, `<span class="icon icon-copy"></span>`);
@@ -145,15 +152,7 @@ const setupCopyAction = (wrapper) => {
   Array.from(wrapper.querySelectorAll('.icon.icon-copy')).forEach((svg) => {
     const anchor = svg.parentElement;
     if (anchor?.href) {
-      anchor.addEventListener('click', (e) => {
-        e.preventDefault();
-        navigator.clipboard
-          .writeText(anchor.href)
-          .then(() => {})
-          .catch(() => {
-            // noop
-          });
-      });
+      renderCopyLink(svg, anchor.getAttribute("href"), placeholders.toastSet);
     }
   });
 };

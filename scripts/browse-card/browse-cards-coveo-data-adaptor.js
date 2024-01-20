@@ -60,9 +60,10 @@ const BrowseCardsCoveoDataAdaptor = (() => {
    * @returns {Object} The BrowseCards data model.
    */
   const mapResultToCardsDataModel = (result, param) => {
-    const { raw, parentResult, title, excerpt, clickUri, uri } = result || {};
+    const { raw, parentResult, title, excerpt, clickUri, uri, id } = result || {};
     /* eslint-disable camelcase */
-    const { el_contenttype, el_product, el_solution, el_type } = parentResult?.raw || raw || {};
+
+    const { el_id, el_contenttype, el_product, el_solution, el_type } = parentResult?.raw || raw || {};
     let contentType;
     if (el_type) {
       contentType = el_type.trim();
@@ -93,6 +94,7 @@ const BrowseCardsCoveoDataAdaptor = (() => {
       copyLink: url,
       viewLink: url,
       viewLinkText: placeholders[`viewLink${convertToTitleCase(contentType)}`] || 'View',
+      id: parentResult?.el_id || el_id || '',
     };
   };
 
