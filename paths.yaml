@@ -1,13 +1,13 @@
 mappings:
-  - /content/exlm/global/:/
-  - /content/exlm/global/en:/
-  - /content/exlm/metadata:/metadata.json
+  - /content/exlm-adobenitesh/global/:/
+  - /content/-adobenitesh/global/en:/
+  - /content/-adobenitesh/metadata:/metadata.json
   # load fragments as resource from codebus in the editor (sw.js)
-  - /content/exlm.resource/fragments/:/fragments/
-  - /content/exlm.resource/browse-index.json:/browse-index.json
+  - /content/-adobenitesh.resource/fragments/:/fragments/
+  - /content/-adobenitesh.resource/browse-index.json:/browse-index.json
 
-  - /content/exlm/redirects:/redirects.json
-  - /content/exlm/placeholders:/placeholders.json
+  - /content/-adobenitesh/redirects:/redirects.json
+  - /content/-adobenitesh/placeholders:/placeholders.json
 
 includes:
-  - /content/exlm/
+  - /content/-adobenitesh/
