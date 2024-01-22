@@ -60,7 +60,7 @@ export function decorateBookmark(block) {
         profile().then(async (data) => {
           const bookmarkAuthedToolTipLabel = block.querySelector('.exl-tooltip-label');
           const bookmarkAuthedToolTipIcon = block.querySelector('.icon.bookmark-icon');
-            if (data.bookmarks.includes(id)) {
+            if (data.bookmarks.includes(bookmarkId)) {
               bookmarkAuthedToolTipIcon.classList.add('authed');
               bookmarkAuthedToolTipLabel.innerHTML = `${placeholders.bookmarkAuthLabelRemove}`;
             }

@@ -1,11 +1,11 @@
 import { loadCSS, fetchPlaceholders } from '../lib-franklin.js';
 import { createTag, htmlToElement } from '../scripts.js';
 import { CONTENT_TYPES } from './browse-cards-constants.js';
-import loadJWT from '../../scripts/auth/jwt.js';
-import { adobeIMS, profile } from '../../scripts/data-service/profile-service.js';
-import { tooltipTemplate } from '../../scripts/toast/toast.js';
-import { renderBookmark } from '../../scripts/bookmark/bookmark.js';
-import { renderCopyLink } from '../../scripts/copy-link/copy-link.js';
+import loadJWT from '../auth/jwt.js';
+import { adobeIMS, profile } from '../data-service/profile-service.js';
+import { tooltipTemplate } from '../toast/toast.js';
+import { renderBookmark } from '../bookmark/bookmark.js';
+import { renderCopyLink } from '../copy-link/copy-link.js';
 
 loadCSS(`${window.hlx.codeBasePath}/scripts/toast/toast.css`);
 
@@ -202,7 +202,6 @@ const setupBookmarkAction = (wrapper) => {
 const setupCopyAction = (wrapper) => {
   Array.from(wrapper.querySelectorAll('.copy-link')).forEach((copylink) => {
     const copylinkvalue = copylink.getAttribute('data-link');
-    console.log(copylink, "helll copylink");
     if (copylinkvalue) {
       renderCopyLink(copylink, copylinkvalue, placeholders.toastSet);
     }

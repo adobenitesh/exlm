@@ -7,6 +7,7 @@ const noticeTemplate = (info) => {
     return noticeContent;
 };
 
+// eslint-disable-next-line
 export const tooltipTemplate = (sel, label = '', tiptext) => {
     const tooltipContent = `<div class="exl-tooltip">
           <span class="icon ${sel}"></span>

@@ -60,7 +60,7 @@ const BrowseCardsCoveoDataAdaptor = (() => {
    * @returns {Object} The BrowseCards data model.
    */
   const mapResultToCardsDataModel = (result, param) => {
-    const { raw, parentResult, title, excerpt, clickUri, uri, id } = result || {};
+    const { raw, parentResult, title, excerpt, clickUri, uri } = result || {};
     /* eslint-disable camelcase */
 
     const { el_id, el_contenttype, el_product, el_solution, el_type } = parentResult?.raw || raw || {};

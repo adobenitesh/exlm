@@ -1,5 +1,5 @@
-import { fetchPlaceholders } from '../../scripts/lib-franklin.js';
-import { updateProfile } from '../../scripts/data-service/profile-service.js';
+import { fetchPlaceholders } from '../lib-franklin.js';
+import { updateProfile } from '../data-service/profile-service.js';
 import { sendNotice } from '../toast/toast.js';
 
 let placeholders = {};
@@ -10,7 +10,7 @@ try {
     console.error('Error fetching placeholders:', err);
 }
 
-export const renderBookmark = (labelSel, iconSel, id) =>{
+export default renderBookmark = (labelSel, iconSel, id) =>{
     if (id) {
         iconSel.addEventListener('click', async () => {
           if (iconSel.classList.contains('authed')) {
