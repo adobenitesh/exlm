@@ -3,8 +3,8 @@ import { isDocPage } from '../../scripts/scripts.js';
 import loadJWT from '../../scripts/auth/jwt.js';
 import { adobeIMS, profile } from '../../scripts/data-service/profile-service.js';
 import { tooltipTemplate } from '../../scripts/toast/toast.js';
-import { renderBookmark } from '../../scripts/bookmark/bookmark.js';
-import { renderCopyLink } from '../../scripts/copy-link/copy-link.js';
+import renderBookmark from '../bookmark/bookmark.js';
+import renderCopyLink from '../copy-link/copy-link.js';
 
 loadCSS(`${window.hlx.codeBasePath}/scripts/toast/toast.css`);
 

@@ -10,7 +10,7 @@ try {
     console.error('Error fetching placeholders:', err);
 }
 
-export default renderBookmark = (labelSel, iconSel, id) =>{
+const renderBookmark = (labelSel, iconSel, id) =>{
     if (id) {
         iconSel.addEventListener('click', async () => {
           if (iconSel.classList.contains('authed')) {
@@ -33,3 +33,5 @@ export default renderBookmark = (labelSel, iconSel, id) =>{
         });
     }
 }
+
+export default renderBookmark;
