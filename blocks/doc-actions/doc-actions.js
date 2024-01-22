@@ -1,6 +1,7 @@
 import { loadCSS, fetchPlaceholders } from '../../scripts/lib-franklin.js';
 import { isDocPage } from '../../scripts/scripts.js';
-import { adobeIMS } from '../../scripts/data-service/profile-service.js';
+import loadJWT from '../../scripts/auth/jwt.js';
+import { adobeIMS, profile } from '../../scripts/data-service/profile-service.js';
 import { tooltipTemplate } from '../../scripts/toast/toast.js';
 import { renderBookmark } from '../../scripts/bookmark/bookmark.js';
 import { renderCopyLink } from '../../scripts/copy-link/copy-link.js';
@@ -31,7 +32,7 @@ function decorateBookmarkMobileBlock() {
 const isSignedIn = adobeIMS?.isSignedInUser();
 
 export function decorateBookmark(block) {
-  const id = ((document.querySelector('meta[name="id"]') || {}).content || '').trim();
+  const bookmarkId = ((document.querySelector('meta[name="id"]') || {}).content || '').trim();
   const unAuthBookmark = document.createElement('div');
   unAuthBookmark.className = 'bookmark';
   unAuthBookmark.innerHTML = tooltipTemplate(
@@ -53,8 +54,21 @@ export function decorateBookmark(block) {
     if (document.querySelector('.doc-actions-mobile')) {
       document.querySelector('.doc-actions-mobile').appendChild(authBookmark.cloneNode(true));
     }
-    const bookmarkAuthed = document.querySelectorAll('.bookmark.auth');
-      renderBookmark(bookmarkAuthed, id);
+    const bookmarkAuthedDesktop = document.querySelector('.doc-actions .bookmark.auth');
+    const bookmarkAuthedMobile = document.querySelector('.doc-actions-mobile .bookmark.auth');
+      loadJWT().then(async () => {
+        profile().then(async (data) => {
+          const bookmarkAuthedToolTipLabel = block.querySelector('.exl-tooltip-label');
+          const bookmarkAuthedToolTipIcon = block.querySelector('.icon.bookmark-icon');
+            if (data.bookmarks.includes(id)) {
+              bookmarkAuthedToolTipIcon.classList.add('authed');
+              bookmarkAuthedToolTipLabel.innerHTML = `${placeholders.bookmarkAuthLabelRemove}`;
+            }
+        });
+
+        renderBookmark(bookmarkAuthedDesktop, bookmarkId);
+        renderBookmark(bookmarkAuthedMobile, bookmarkId);
+      });
   } else {
     block.appendChild(unAuthBookmark);
     if (document.querySelector('.doc-actions-mobile')) {

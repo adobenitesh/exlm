@@ -7,7 +7,7 @@ const noticeTemplate = (info) => {
     return noticeContent;
 };
 
-export const tooltipTemplate = (sel, label, tiptext) => {
+export const tooltipTemplate = (sel, label = '', tiptext) => {
     const tooltipContent = `<div class="exl-tooltip">
           <span class="icon ${sel}"></span>
           <span class="exl-tooltip-label">${tiptext}</span></div>
