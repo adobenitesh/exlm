@@ -156,7 +156,7 @@ const buildCardContent = (card, model) => {
         '',
         `${placeholders.bookmarkAuthLabelSet}`,
       );
-      if (!isSignedIn) {
+      if (isSignedIn) {
         cardOptions.appendChild(authBookmark);
         if(id){
           cardOptions.children[0].setAttribute('data-id', id);
@@ -186,10 +186,10 @@ const setupBookmarkAction = (wrapper) => {
     profile().then(async (data) => {
       const bookmarkAuthed = Array.from(wrapper.querySelectorAll('.browse-card-footer .browse-card-options .bookmark.auth'));
         bookmarkAuthed.forEach((bookmark) => {
-          const bookmarkAuthedToolTipLabel = bookmarkAuthed.querySelector('.exl-tooltip-label');
-          const bookmarkAuthedToolTipIcon = bookmarkAuthed.querySelector('.icon.bookmark-icon');
+          const bookmarkAuthedToolTipLabel = bookmark.querySelector('.exl-tooltip-label');
+          const bookmarkAuthedToolTipIcon = bookmark.querySelector('.icon.bookmark-icon');
           const bookmarkId = bookmarkAuthed.getAttribute('data-id');
-            renderBookmark(bookmark, bookmarkId);
+            renderBookmark(bookmarkAuthedToolTipLabel, bookmarkAuthedToolTipIcon, bookmarkId);
             if (data.bookmarks.includes(bookmarkId)) {
               bookmarkAuthedToolTipIcon.classList.add('authed');
               bookmarkAuthedToolTipLabel.innerHTML = `${placeholders.bookmarkAuthLabelRemove}`;
